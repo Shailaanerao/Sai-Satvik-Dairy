@@ -1,0 +1,240 @@
+/* =====================================
+   BEST SELLERS SECTION
+===================================== */
+
+.best-sellers-section {
+  width: 100%;
+
+  padding: 5rem 1.5rem;
+
+  background-color: #ffffff;
+}
+
+.best-sellers-container {
+  width: 100%;
+
+  max-width: 1280px;
+
+  margin: 0 auto;
+}
+
+
+/* =====================================
+   HEADING
+===================================== */
+
+.best-sellers-heading {
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 2rem;
+
+  margin-bottom: 2.5rem;
+}
+
+.best-sellers-heading-left {
+  flex-shrink: 0;
+}
+
+.best-sellers-label {
+  display: block;
+
+  color: #558739;
+
+  font-size: 0.75rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.14em;
+
+  margin-bottom: 0.6rem;
+}
+
+.best-sellers-title {
+  margin: 0;
+
+  color: #23482a;
+
+  font-family: serif;
+
+  font-size: 2.7rem;
+
+  line-height: 1.15;
+
+  font-weight: 700;
+}
+
+.best-sellers-title span {
+  color: #558739;
+}
+
+.best-sellers-description {
+  max-width: 420px;
+
+  margin: 0;
+
+  color: #707070;
+
+  font-size: 0.9rem;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================
+   PRODUCT GRID
+   5 CARDS IN ONE ROW
+===================================== */
+
+.best-sellers-grid {
+  display: grid;
+
+  grid-template-columns: repeat(5, 1fr);
+
+  gap: 1rem;
+}
+
+
+/* =====================================
+   FOOTER BUTTON
+===================================== */
+
+.best-sellers-footer {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 2.5rem;
+}
+
+.best-sellers-btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 0.5rem;
+
+  padding: 0.8rem 1.5rem;
+
+  border: 1.5px solid #23482a;
+
+  border-radius: 7px;
+
+  color: #23482a;
+
+  background-color: transparent;
+
+  text-decoration: none;
+
+  font-size: 0.85rem;
+
+  font-weight: 700;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.best-sellers-btn:hover {
+  background-color: #23482a;
+
+  color: #ffffff;
+
+  transform: translateY(-2px);
+}
+
+
+/* =====================================
+   LARGE TABLET
+===================================== */
+
+@media (max-width: 1100px) {
+
+  .best-sellers-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (max-width: 900px) {
+
+  .best-sellers-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .best-sellers-heading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 1rem;
+  }
+
+  .best-sellers-description {
+    max-width: 600px;
+  }
+
+  .best-sellers-title {
+    font-size: 2.35rem;
+  }
+
+  .best-sellers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  .best-sellers-section {
+    padding: 3.5rem 1rem;
+  }
+
+  .best-sellers-heading {
+    margin-bottom: 2rem;
+  }
+
+  .best-sellers-title {
+    font-size: 2rem;
+  }
+
+  .best-sellers-description {
+    font-size: 0.85rem;
+  }
+
+  .best-sellers-grid {
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+  }
+
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media (max-width: 400px) {
+
+  .best-sellers-title {
+    font-size: 1.8rem;
+  }
+
+}
