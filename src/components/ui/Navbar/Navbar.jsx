@@ -63,7 +63,7 @@ export default function Navbar() {
               </span>
 
               <span className="brand-subtitle1">
-                PURE FOR SURE
+                PURE FOR SURE!
               </span>
 
             </div>
