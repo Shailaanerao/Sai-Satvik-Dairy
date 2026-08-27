@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProductCard from "../products-card/ProductCard";
+import ProductCard from "../Products-card/ProductCard";
 import "./BestSellers.css";
 
 const bestSellingProducts = [
