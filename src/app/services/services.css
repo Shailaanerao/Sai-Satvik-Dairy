@@ -1,0 +1,379 @@
+/* =====================================
+   SERVICES PAGE
+===================================== */
+
+.services-page {
+  min-height: 100vh;
+
+  background-color: #f8f6f0;
+}
+
+
+/* =====================================
+   HERO
+===================================== */
+
+.services-hero {
+  min-height: 330px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 3rem 1.5rem;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      rgba(35, 72, 42, 0.86),
+      rgba(35, 72, 42, 0.86)
+    ),
+    url("/banner2.jpg");
+
+  background-size: cover;
+
+  background-position: center;
+}
+
+.services-hero-content {
+  max-width: 750px;
+
+  color: #ffffff;
+}
+
+.services-badge {
+  display: inline-block;
+
+  margin-bottom: 1rem;
+
+  padding: 0.4rem 0.9rem;
+
+  border-radius: 20px;
+
+  background-color: #8bc34a;
+
+  color: #23482a;
+
+  font-size: 0.7rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+}
+
+.services-hero h1 {
+  margin: 0 0 1rem;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 2.8rem;
+
+  line-height: 1.15;
+}
+
+.services-hero p {
+  max-width: 600px;
+
+  margin: 0 auto;
+
+  color: #e8eee8;
+
+  font-size: 1rem;
+
+  line-height: 1.6;
+}
+
+
+/* =====================================
+   SERVICES SECTION
+===================================== */
+
+.services-section {
+  width: 92%;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  padding: 4rem 0;
+}
+
+
+/* =====================================
+   HEADING
+===================================== */
+
+.services-heading {
+  max-width: 650px;
+
+  margin: 0 auto 2.5rem;
+
+  text-align: center;
+}
+
+.services-small-title {
+  color: #719d45;
+
+  font-size: 0.72rem;
+
+  font-weight: 800;
+
+  letter-spacing: 0.1em;
+}
+
+.services-heading h2 {
+  margin: 0.4rem 0 0.8rem;
+
+  color: #23482a;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 2rem;
+
+  line-height: 1.2;
+}
+
+.services-heading p {
+  margin: 0;
+
+  color: #666666;
+
+  font-size: 0.9rem;
+
+  line-height: 1.6;
+}
+
+
+/* =====================================
+   SERVICE GRID
+===================================== */
+
+.services-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 1.4rem;
+}
+
+
+/* =====================================
+   WHY SAI SATVIK
+===================================== */
+
+.services-highlight {
+  width: 92%;
+
+  max-width: 1200px;
+
+  margin: 0 auto 4rem;
+
+  padding: 3rem;
+
+  box-sizing: border-box;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #23482a,
+      #315e39
+    );
+
+  color: #ffffff;
+}
+
+.highlight-content {
+  max-width: 700px;
+}
+
+.highlight-content .services-small-title {
+  color: #a8d66d;
+}
+
+.highlight-content h2 {
+  margin: 0.4rem 0 1rem;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 2rem;
+
+  line-height: 1.2;
+}
+
+.highlight-content > p {
+  margin: 0;
+
+  color: #e2ebe3;
+
+  font-size: 0.9rem;
+
+  line-height: 1.7;
+}
+
+
+/* =====================================
+   HIGHLIGHT POINTS
+===================================== */
+
+.highlight-points {
+  display: flex;
+
+  align-items: center;
+
+  gap: 3rem;
+
+  margin-top: 2rem;
+}
+
+.highlight-point {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.2rem;
+}
+
+.highlight-point strong {
+  color: #ffffff;
+
+  font-size: 1.2rem;
+}
+
+.highlight-point span {
+  color: #d4dfd5;
+
+  font-size: 0.72rem;
+}
+
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (max-width: 1000px) {
+
+  .services-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+  .services-hero {
+    min-height: 280px;
+
+    padding: 2.5rem 1.2rem;
+  }
+
+  .services-hero h1 {
+    font-size: 2rem;
+  }
+
+  .services-hero p {
+    font-size: 0.88rem;
+  }
+
+
+  .services-section {
+    width: 90%;
+
+    padding: 3rem 0;
+  }
+
+
+  .services-heading {
+    margin-bottom: 2rem;
+  }
+
+  .services-heading h2 {
+    font-size: 1.7rem;
+  }
+
+  .services-heading p {
+    font-size: 0.82rem;
+  }
+
+
+  .services-grid {
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+  }
+
+
+  .services-highlight {
+    width: 90%;
+
+    padding: 2rem;
+
+    margin-bottom: 3rem;
+  }
+
+
+  .highlight-content h2 {
+    font-size: 1.7rem;
+  }
+
+
+  .highlight-content > p {
+    font-size: 0.82rem;
+  }
+
+
+  .highlight-points {
+    gap: 1.5rem;
+
+    flex-wrap: wrap;
+  }
+
+}
+
+
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
+@media (max-width: 400px) {
+
+  .services-hero h1 {
+    font-size: 1.7rem;
+  }
+
+  .services-section {
+    width: 90%;
+  }
+
+  .services-highlight {
+    width: 90%;
+
+    padding: 1.5rem;
+  }
+
+  .highlight-points {
+    gap: 1.2rem;
+  }
+
+}

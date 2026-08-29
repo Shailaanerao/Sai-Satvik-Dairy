@@ -14,11 +14,12 @@ export default function AboutUs() {
         <div className="about-image-wrapper">
 
           <Image
-            src="/about-dairy.jpg"
-            alt="Fresh dairy farm and cows"
-            fill
-            className="about-image"
-          />
+  src="/about-dairy.jpg"
+  alt="About Sai Satvik Dairy"
+  fill
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  style={{ objectFit: "cover" }}
+/>
 
           {/* Small Experience Card */}
           <div className="about-experience-card">
