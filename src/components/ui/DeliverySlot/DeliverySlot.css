@@ -1,0 +1,48 @@
+.delivery-slot-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+}
+
+.delivery-slot-box h2 {
+  margin: 0;
+  color: #23482a;
+}
+
+.slot-description {
+  color: #777;
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.delivery-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 18px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.delivery-slot.selected {
+  border: 2px solid #23482a;
+  background: #f5faf3;
+}
+
+.delivery-slot strong {
+  color: #23482a;
+}
+
+.delivery-slot span {
+  color: #666;
+}

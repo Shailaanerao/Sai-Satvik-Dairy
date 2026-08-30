@@ -1,0 +1,118 @@
+.status-page {
+  min-height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  background: #f8f6f0;
+}
+
+.status-card {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 20px;
+  padding: 45px 30px;
+  text-align: center;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+}
+
+.status-icon {
+  width: 75px;
+  height: 75px;
+  margin: auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.status-icon.success {
+  background: #e6f4e2;
+  color: #23482a;
+}
+
+.status-icon.failed {
+  background: #fceaea;
+  color: #b3261e;
+}
+
+.status-card h1 {
+  margin-top: 20px;
+  color: #23482a;
+}
+
+.status-card p {
+  color: #777;
+  line-height: 1.6;
+}
+
+.status-details {
+  background: #f8f6f0;
+  padding: 18px;
+  border-radius: 10px;
+  margin: 25px 0;
+}
+
+.status-details div {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.status-details span {
+  color: #777;
+}
+
+.status-card button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #23482a;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+.order-confirmation-details {
+  background: #f8f6f0;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 25px 0;
+  text-align: left;
+}
+
+.order-confirmation-details div {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.order-confirmation-details div:last-child {
+  border-bottom: none;
+}
+
+.order-confirmation-details span {
+  color: #777;
+}
+
+.order-confirmation-details strong {
+  color: #23482a;
+}
+
+.confirmation-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.confirmation-actions button {
+  flex: 1;
+}
+
+.confirmation-actions .secondary-btn {
+  background: white;
+  color: #23482a;
+  border: 1px solid #23482a;
+}

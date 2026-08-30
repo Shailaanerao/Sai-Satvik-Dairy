@@ -1,0 +1,52 @@
+.order-summary-box {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  padding: 25px;
+}
+
+.order-summary-box h2 {
+  color: #23482a;
+  margin-top: 0;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.summary-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summary-item span {
+  color: #777;
+  font-size: 14px;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.discount-text {
+  color: #388e3c;
+}
+
+.summary-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 18px;
+  margin-top: 10px;
+  border-top: 1px solid #ddd;
+  font-size: 19px;
+}
+
+.summary-total strong {
+  color: #23482a;
+}

@@ -1,0 +1,118 @@
+.address-card {
+  border: 1px solid #e2e2e2;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  background: #fff;
+  transition: 0.2s;
+}
+
+.address-card.selected {
+  border: 2px solid #23482a;
+  background: #f8fbf7;
+}
+
+.address-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.address-card-top label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.address-card-top button {
+  border: none;
+  background: none;
+  color: #23482a;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.address-card h3 {
+  margin: 15px 0 5px;
+}
+
+.address-card p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.address-form {
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+}
+
+.address-form h2 {
+  color: #23482a;
+  margin-bottom: 25px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 13px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.address-types {
+  display: flex;
+  gap: 10px;
+}
+
+.address-types button {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.address-types button.active {
+  background: #23482a;
+  color: white;
+  border-color: #23482a;
+}
+
+.save-address-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #23482a;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}

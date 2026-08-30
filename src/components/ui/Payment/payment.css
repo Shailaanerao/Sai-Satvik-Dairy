@@ -1,0 +1,97 @@
+.payment-method-card {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  margin-bottom: 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.payment-method-card.selected {
+  border: 2px solid #23482a;
+  background: #f7faf5;
+}
+
+.payment-method-icon {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  background: #f1f5ed;
+  border-radius: 10px;
+  font-size: 22px;
+}
+
+.payment-method-info {
+  flex: 1;
+}
+
+.payment-method-info h3 {
+  margin: 0 0 4px;
+  color: #23482a;
+}
+
+.payment-method-info p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.payment-form {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+}
+
+.payment-form-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.payment-form h2 {
+  color: #23482a;
+}
+
+.payment-form p {
+  color: #777;
+}
+
+.payment-form input,
+.payment-form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+.payment-form button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #23482a;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.card-input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.card-input-row input {
+  flex: 1;
+}
