@@ -27,9 +27,7 @@ export default function CardForm() {
   };
 
   return (
-    <form className="payment-form" onSubmit={handleSubmit}>
-      <div className="payment-form-icon">💳</div>
-
+    <form onSubmit={handleSubmit}>
       <h2>Card Payment</h2>
 
       <p>Enter your card details to continue.</p>
@@ -40,7 +38,7 @@ export default function CardForm() {
         placeholder="Card Number"
         value={card.number}
         onChange={handleChange}
-        maxLength="16"
+        maxLength={16}
         required
       />
 
@@ -53,26 +51,24 @@ export default function CardForm() {
         required
       />
 
-      <div className="card-input-row">
-        <input
-          type="text"
-          name="expiry"
-          placeholder="MM/YY"
-          value={card.expiry}
-          onChange={handleChange}
-          required
-        />
+      <input
+        type="text"
+        name="expiry"
+        placeholder="MM/YY"
+        value={card.expiry}
+        onChange={handleChange}
+        required
+      />
 
-        <input
-          type="password"
-          name="cvv"
-          placeholder="CVV"
-          value={card.cvv}
-          onChange={handleChange}
-          maxLength="3"
-          required
-        />
-      </div>
+      <input
+        type="password"
+        name="cvv"
+        placeholder="CVV"
+        value={card.cvv}
+        onChange={handleChange}
+        maxLength={3}
+        required
+      />
 
       <button type="submit">
         Pay Now

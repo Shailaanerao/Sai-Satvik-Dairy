@@ -7,7 +7,7 @@ export default function NetBankingPage() {
     <>
       <Navbar />
 
-      <main>
+      <main className="payment-main">
         <NetBankingForm />
       </main>
     </>
