@@ -54,33 +54,27 @@ export default function FeaturedProducts() {
   return (
     <section className="featured-section">
       <div className="featured-container">
-
         {/* Section Heading */}
         <div className="featured-heading">
-
           <div className="featured-heading-left">
-            <span className="featured-label">
-              FROM OUR FARM
-            </span>
-
+            <span className="featured-label">FROM OUR FARM</span>
             <h2 className="featured-title">
               Featured <span>Products</span>
             </h2>
           </div>
 
           <p className="featured-description">
-            Discover our selection of fresh, pure and wholesome
-            dairy products made with care for your family.
+            Discover our selection of fresh, pure and wholesome dairy products
+            made with care for your family.
           </p>
-
         </div>
-
 
         {/* Product Cards */}
         <div className="featured-grid">
           {featuredProducts.map((product) => (
             <ProductCard
               key={product.id}
+              id={product.id}
               name={product.name}
               category={product.category}
               price={product.price}
@@ -90,15 +84,10 @@ export default function FeaturedProducts() {
           ))}
         </div>
 
-
         {/* View All Products */}
         <div className="featured-footer">
-          <Link
-            href="/products"
-            className="view-products-btn"
-          >
+          <Link href="/products" className="view-products-btn">
             View All Products
-
             <svg
               width="18"
               height="18"
@@ -114,7 +103,6 @@ export default function FeaturedProducts() {
             </svg>
           </Link>
         </div>
-
       </div>
     </section>
   );

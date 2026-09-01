@@ -1,0 +1,343 @@
+.site-footer {
+  background-color: #17321c;
+  color: #d1e7d6;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  margin-top: auto;
+  border-top: 3.5px solid #719d45;
+}
+
+/* Newsletter Header */
+.footer-newsletter-banner {
+  background: linear-gradient(135deg, #23482a 0%, #1c3c22 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2.75rem 1.5rem;
+}
+
+.newsletter-content {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.newsletter-text h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 0.35rem 0;
+  font-family: Georgia, serif;
+}
+
+.newsletter-text p {
+  font-size: 0.88rem;
+  color: #c0dec4;
+  margin: 0;
+}
+
+.newsletter-form {
+  display: flex;
+  align-items: stretch;
+  max-width: 440px;
+  width: 100%;
+  height: 42px;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+.newsletter-form input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 1rem;
+  font-size: 0.85rem;
+  color: #222222;
+}
+
+.newsletter-btn {
+  background-color: #719d45;
+  color: #ffffff;
+  border: none;
+  padding: 0 1.25rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.newsletter-btn:hover {
+  background-color: #5c8435;
+}
+
+/* Main Grid */
+.footer-main {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 2.5rem 1.5rem;
+}
+
+.footer-top-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+/* Brand Column */
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  margin-bottom: 1.2rem;
+}
+
+.logo-circle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #f1ede4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1.5px solid #719d45;
+}
+
+.footer-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand-name {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 800;
+  font-family: Georgia, serif;
+  line-height: 1.1;
+}
+
+.footer-brand-sub {
+  color: #9eccaa;
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.footer-brand-tag {
+  color: #8bc34a;
+  font-size: 0.48rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.footer-bio {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #bcdbc0;
+  margin: 0 0 1.25rem 0;
+  max-width: 520px;
+}
+
+.footer-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.badge-pill {
+  background-color: rgba(255, 255, 255, 0.08);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: 12px;
+  color: #e2f4e5;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Link Columns */
+.footer-col-title {
+  color: #ffffff;
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin: 0 0 1.2rem 0;
+  font-family: Georgia, serif;
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+
+.footer-col-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background-color: #719d45;
+  border-radius: 2px;
+}
+
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.footer-link {
+  color: #c9e4cd;
+  text-decoration: none;
+  font-size: 0.84rem;
+  transition: color 0.15s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* Dual Address Section */
+.footer-locations-wrapper {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2.25rem;
+}
+
+.locations-title {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: Georgia, serif;
+  margin: 0 0 1.25rem 0;
+}
+
+.addresses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.address-card {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.35rem 1.5rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.address-card:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  border-color: rgba(113, 157, 69, 0.5);
+}
+
+.address-card-header {
+  margin-bottom: 0.75rem;
+}
+
+.address-badge {
+  display: inline-block;
+  background-color: #23482a;
+  color: #8bc34a;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  padding: 0.22rem 0.6rem;
+  border-radius: 4px;
+  margin-bottom: 0.35rem;
+  border: 1px solid rgba(139, 195, 74, 0.25);
+}
+
+.address-name {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.address-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.address-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.address-icon {
+  color: #8bc34a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.address-text {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #d1e7d6;
+  margin: 0;
+}
+
+.address-subtext {
+  font-size: 0.78rem;
+  color: #b7dbbc;
+}
+
+/* Bottom Legal Bar */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #102414;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.76rem;
+  color: #92b896;
+}
+
+.footer-bottom-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-bottom-inner p {
+  margin: 0;
+}
+
+.bottom-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-top-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .addresses-grid {
+    grid-template-columns: 1fr;
+  }
+  .newsletter-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .newsletter-form {
+    max-width: 100%;
+  }
+}

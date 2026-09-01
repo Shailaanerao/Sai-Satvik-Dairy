@@ -1,451 +1,240 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useCart } from "@/app/context/CartContext";
 import "./Cart.css";
 
-const initialCartItems = [
-  {
-    id: 1,
-    name: "A2 Desi Cow Milk",
-    category: "Fresh Dairy",
-    size: "1 L",
-    price: 65,
-    quantity: 2,
-    image: "/milk.jpg",
-  },
-  {
-    id: 2,
-    name: "Pure Gir Cow Ghee",
-    category: "Traditional Dairy",
-    size: "500 g",
-    price: 650,
-    quantity: 1,
-    image: "/ghee.jpg",
-  },
-  {
-    id: 3,
-    name: "Fresh Paneer",
-    category: "Fresh Dairy",
-    size: "250 g",
-    price: 120,
-    quantity: 1,
-    image: "/paneer.jpg",
-  },
-];
+// Individual Cart Item Component with Image Error Handling
+function CartItemRow({ item, onIncrease, onDecrease, onRemove }) {
+  const [imgSrc, setImgSrc] = useState(item.image || "/logo.jpeg");
+
+  return (
+    <div className="cart-item">
+      {/* Product Image */}
+      <div className="cart-product-image">
+        <Image
+          src={imgSrc}
+          alt={item.name || "Product"}
+          fill
+          sizes="110px"
+          onError={() => setImgSrc("/logo.jpeg")}
+        />
+      </div>
+
+      {/* Product Details */}
+      <div className="cart-product-details">
+        {item.category && (
+          <span className="cart-product-category">{item.category}</span>
+        )}
+        <h3>{item.name}</h3>
+        <p>Pack Size: {item.size || "1 unit"}</p>
+        <strong>₹{item.price}</strong>
+      </div>
+
+      {/* Quantity Control */}
+      <div className="quantity-control">
+        <button
+          type="button"
+          onClick={() => onDecrease(item.id)}
+          aria-label="Decrease quantity"
+        >
+          −
+        </button>
+
+        <span>{item.quantity}</span>
+
+        <button
+          type="button"
+          onClick={() => onIncrease(item.id)}
+          aria-label="Increase quantity"
+        >
+          +
+        </button>
+      </div>
+
+      {/* Item Subtotal & Remove */}
+      <div className="item-total">
+        <strong>₹{item.price * item.quantity}</strong>
+
+        <button
+          type="button"
+          className="remove-item"
+          onClick={() => onRemove(item.id)}
+          aria-label={`Remove ${item.name} from cart`}
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
-
-  // Increase quantity
-  const increaseQuantity = (id) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
-  };
-
-  // Decrease quantity
-  const decreaseQuantity = (id) => {
-    setCartItems((items) =>
-      items
-        .map((item) =>
-          item.id === id
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
-  };
-
-  // Remove item
-  const removeItem = (id) => {
-    setCartItems((items) =>
-      items.filter((item) => item.id !== id)
-    );
-  };
-
-  // Calculate subtotal
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  // Free delivery above ₹500
-  const deliveryFee =
-    subtotal === 0 || subtotal >= 500 ? 0 : 40;
-
-  // ₹100 discount above ₹1000
-  const discount = subtotal >= 1000 ? 100 : 0;
-
-  const total = subtotal + deliveryFee - discount;
-
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const {
+    cartItems,
+    increaseQuantity,
+    decreaseQuantity,
+    removeItem,
+    totalQuantity,
+    subtotal,
+    deliveryFee,
+    discount,
+    totalAmount,
+  } = useCart();
 
   return (
     <section className="cart-page">
-
       {/* ================= HEADER ================= */}
-
       <div className="cart-header">
-
         <div>
-          <span className="cart-eyebrow">
-            YOUR SHOPPING CART
-          </span>
-
+          <span className="cart-eyebrow">YOUR SHOPPING CART</span>
           <h1>
             Freshness in Your <span>Basket</span>
           </h1>
-
-          <p>
-            Review your farm-fresh dairy products
-            before placing your order.
-          </p>
+          <p>Review your farm-fresh dairy products before placing your order.</p>
         </div>
 
         {cartItems.length > 0 && (
           <div className="cart-count">
-            {totalQuantity} Items
+            {totalQuantity} {totalQuantity === 1 ? "Item" : "Items"}
           </div>
         )}
-
       </div>
 
-
-      {/* ================= EMPTY CART ================= */}
-
+      {/* ================= EMPTY CART VIEW ================= */}
       {cartItems.length === 0 ? (
-
         <div className="empty-cart">
-
-          <div className="empty-cart-icon">
-            🛒
-          </div>
-
+          <div className="empty-cart-icon">🛒</div>
           <h2>Your Cart is Empty</h2>
-
-          <p>
-            Looks like you haven't added any
-            dairy products yet.
-          </p>
-
-          <Link
-            href="/products"
-            className="continue-shopping-btn"
-          >
+          <p>Looks like you haven&apos;t added any farm-fresh dairy products yet.</p>
+          <Link href="/products" className="continue-shopping-btn">
             Explore Products →
           </Link>
-
         </div>
-
       ) : (
-
         /* ================= CART CONTENT ================= */
-
         <div className="cart-container">
-
-          {/* LEFT SIDE */}
-
+          {/* LEFT: ITEMS LIST */}
           <div className="cart-items-section">
-
             <div className="cart-section-title">
-
               <h2>Your Items</h2>
-
               <span>
-                {totalQuantity} products
+                {totalQuantity} {totalQuantity === 1 ? "product" : "products"}
               </span>
-
             </div>
 
-
-            {/* CART ITEMS */}
-
+            {/* Render items dynamically from context */}
             {cartItems.map((item) => (
-
-              <div
-                className="cart-item"
+              <CartItemRow
                 key={item.id}
-              >
-
-                {/* Product Image */}
-
-                <div className="cart-product-image">
-
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="110px"
-                  />
-
-                </div>
-
-
-                {/* Product Details */}
-
-                <div className="cart-product-details">
-
-                  <span className="cart-product-category">
-                    {item.category}
-                  </span>
-
-                  <h3>
-                    {item.name}
-                  </h3>
-
-                  <p>
-                    Pack Size: {item.size}
-                  </p>
-
-                  <strong>
-                    ₹{item.price}
-                  </strong>
-
-                </div>
-
-
-                {/* Quantity */}
-
-                <div className="quantity-control">
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      decreaseQuantity(item.id)
-                    }
-                  >
-                    −
-                  </button>
-
-                  <span>
-                    {item.quantity}
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      increaseQuantity(item.id)
-                    }
-                  >
-                    +
-                  </button>
-
-                </div>
-
-
-                {/* Item Total */}
-
-                <div className="item-total">
-
-                  <strong>
-                    ₹{item.price * item.quantity}
-                  </strong>
-
-                  <button
-                    type="button"
-                    className="remove-item"
-                    onClick={() =>
-                      removeItem(item.id)
-                    }
-                  >
-                    Remove
-                  </button>
-
-                </div>
-
-              </div>
-
+                item={item}
+                onIncrease={increaseQuantity}
+                onDecrease={decreaseQuantity}
+                onRemove={removeItem}
+              />
             ))}
 
-
-            {/* Continue Shopping */}
-
-            <Link
-              href="/products"
-              className="continue-shopping"
-            >
+            {/* Continue Shopping Action */}
+            <Link href="/products" className="continue-shopping">
               ← Continue Shopping
             </Link>
-
           </div>
 
-
-          {/* ================= ORDER SUMMARY ================= */}
-
+          {/* RIGHT: ORDER SUMMARY */}
           <aside className="cart-summary">
-
             <div className="summary-header">
-
-              <h2>
-                Order Summary
-              </h2>
-
+              <h2>Order Summary</h2>
               <span>₹</span>
-
             </div>
-
 
             {/* Subtotal */}
-
             <div className="summary-row">
-
-              <span>
-                Subtotal
-              </span>
-
-              <strong>
-                ₹{subtotal}
-              </strong>
-
+              <span>Subtotal</span>
+              <strong>₹{subtotal}</strong>
             </div>
-
 
             {/* Delivery */}
-
             <div className="summary-row">
-
-              <span>
-                Delivery
-              </span>
-
-              <strong
-                className={
-                  deliveryFee === 0
-                    ? "free-delivery"
-                    : ""
-                }
-              >
-                {deliveryFee === 0
-                  ? "FREE"
-                  : `₹${deliveryFee}`}
+              <span>Delivery</span>
+              <strong className={deliveryFee === 0 ? "free-delivery" : ""}>
+                {deliveryFee === 0 ? "FREE" : `₹${deliveryFee}`}
               </strong>
-
             </div>
 
-
             {/* Discount */}
-
             {discount > 0 && (
-
               <div className="summary-row discount-row">
-
-                <span>
-                  Discount
-                </span>
-
-                <strong>
-                  -₹{discount}
-                </strong>
-
+                <span>Special Discount</span>
+                <strong>-₹{discount}</strong>
               </div>
-
             )}
 
-
-            {/* Free Delivery Message */}
-
+            {/* Free Delivery Banner */}
             <div className="free-delivery-message">
-
               {subtotal >= 500 ? (
-                "✓ You qualify for free delivery"
+                "✓ You qualify for free sunrise delivery"
               ) : (
                 `Add ₹${500 - subtotal} more for free delivery`
               )}
-
             </div>
-
 
             <div className="summary-divider"></div>
 
-
             {/* Total */}
-
             <div className="summary-total">
-
-              <span>
-                Total
-              </span>
-
-              <strong>
-                ₹{total}
-              </strong>
-
+              <span>Total</span>
+              <strong>₹{totalAmount}</strong>
             </div>
 
-
             {/* Checkout Button */}
-
-            <Link
-              href="/checkout"
-              className="checkout-btn"
-            >
+            <Link href="/payment" className="checkout-btn">
               Proceed to Checkout
               <span>→</span>
             </Link>
 
-
             <div className="secure-checkout">
-              🔒 Secure & Safe Checkout
+              🔒 100% Safe & Encrypted Checkout
             </div>
-
           </aside>
-
         </div>
-
       )}
 
-
-      {/* ================= TRUST SECTION ================= */}
-
+      {/* ================= TRUST BADGES ================= */}
       <div className="cart-trust">
-
         <div>
           <span>🥛</span>
-
           <div>
             <strong>Farm Fresh</strong>
-            <p>Fresh dairy products</p>
+            <p>Fresh daily dairy</p>
           </div>
         </div>
 
         <div>
           <span>🚚</span>
-
           <div>
             <strong>Fast Delivery</strong>
-            <p>Freshness at your door</p>
+            <p>At your doorstep before 7 AM</p>
           </div>
         </div>
 
         <div>
           <span>🌿</span>
-
           <div>
             <strong>Quality Assured</strong>
-            <p>Pure & carefully tested</p>
+            <p>Pure & organically tested</p>
           </div>
         </div>
 
         <div>
           <span>🔒</span>
-
           <div>
             <strong>Secure Payment</strong>
-            <p>Safe & secure checkout</p>
+            <p>Safe & instant checkout</p>
           </div>
         </div>
-
       </div>
-
     </section>
   );
 }

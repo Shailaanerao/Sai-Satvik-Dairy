@@ -1,0 +1,190 @@
+.new-arrivals-section {
+  width: 100%;
+  padding: 4.5rem 1.5rem;
+  background-color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+.new-arrivals-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.new-arrivals-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.new-arrivals-badge {
+  display: inline-block;
+  color: #719d45;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.new-arrivals-title {
+  margin: 0;
+  color: #23482a;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 2.2rem;
+  line-height: 1.2;
+}
+
+.new-arrivals-title span {
+  color: #719d45;
+}
+
+.new-arrivals-heading-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.new-arrivals-desc {
+  margin: 0;
+  color: #666666;
+  font-size: 0.92rem;
+  max-width: 440px;
+}
+
+.new-arrivals-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  background-color: #f8f6f0;
+  border: 1px solid #ebdccb;
+  color: #23482a;
+  font-size: 0.84rem;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.new-arrivals-view-btn:hover {
+  background-color: #23482a;
+  color: #ffffff;
+  border-color: #23482a;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   FILTER TABS
+========================= */
+
+.new-arrivals-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.3rem;
+}
+
+.new-arrivals-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.arrivals-pill {
+  border: 1px solid #e2ddd3;
+  background-color: #fcfbfa;
+  color: #555555;
+  padding: 0.48rem 1.1rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.arrivals-pill:hover {
+  background-color: #eaf2e7;
+  color: #23482a;
+  border-color: #719d45;
+}
+
+.arrivals-pill.active {
+  background-color: #23482a;
+  color: #ffffff;
+  border-color: #23482a;
+  box-shadow: 0 3px 10px rgba(35, 72, 42, 0.2);
+}
+
+/* =========================
+   GRID
+========================= */
+
+.new-arrivals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+.new-arrivals-empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: #777777;
+  font-size: 0.9rem;
+}
+
+/* =========================
+   RESPONSIVE BREAKPOINTS
+========================= */
+
+@media (max-width: 1080px) {
+  .new-arrivals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .new-arrivals-section {
+    padding: 3rem 1rem;
+  }
+
+  .new-arrivals-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .new-arrivals-heading-right {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 0.85rem;
+  }
+
+  .new-arrivals-view-btn {
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  .new-arrivals-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .new-arrivals-grid {
+    grid-template-columns: 1fr;
+  }
+}
