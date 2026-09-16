@@ -14,8 +14,7 @@ const slides = [
       "Directly sourced from grass-fed desi cows, delivered straight to your doorstep every morning.",
     buttonText: "Order Now",
     link: "/products",
-    // Place your background images inside the /public folder
-    bgImage: "/banner/banner1.jpg", 
+    bgImage: "/banner/banner1.jpg",
   },
   {
     id: 2,
@@ -56,11 +55,15 @@ export default function Carousel() {
   }, [isPaused]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrentIndex((prev) =>
+      prev === 0 ? slides.length - 1 : prev - 1
+    );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) =>
+      prev === slides.length - 1 ? 0 : prev + 1
+    );
   };
 
   return (
@@ -71,29 +74,42 @@ export default function Carousel() {
     >
       <div
         className="carousel-track"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}
       >
         {slides.map((slide, index) => (
           <div key={slide.id} className="carousel-slide">
-            {/* Full Background Image */}
             <Image
               src={slide.bgImage}
               alt={slide.title}
               fill
               priority={index === 0}
+              loading={index === 0 ? "eager" : "lazy"}
               className="slide-bg-image"
             />
 
-            {/* Dark gradient tint overlay for readable text */}
             <div className="slide-overlay" />
 
-            {/* Text Overlay Content */}
             <div className="slide-content">
-              <span className="slide-badge">{slide.badge}</span>
-              <h2 className="slide-title">{slide.title}</h2>
-              <p className="slide-description">{slide.description}</p>
-              <Link href={slide.link} className="slide-btn">
+              <span className="slide-badge">
+                {slide.badge}
+              </span>
+
+              <h2 className="slide-title">
+                {slide.title}
+              </h2>
+
+              <p className="slide-description">
+                {slide.description}
+              </p>
+
+              <Link
+                href={slide.link}
+                className="slide-btn"
+              >
                 {slide.buttonText}
+
                 <svg
                   width="18"
                   height="18"
@@ -103,8 +119,15 @@ export default function Carousel() {
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  aria-hidden="true"
                 >
-                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <line
+                    x1="5"
+                    y1="12"
+                    x2="19"
+                    y2="12"
+                  />
+
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
               </Link>
@@ -113,35 +136,61 @@ export default function Carousel() {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
       <button
+        type="button"
         onClick={handlePrev}
         className="carousel-arrow arrow-prev"
         aria-label="Previous Slide"
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
           <polyline points="15 18 9 12 15 6" />
         </svg>
       </button>
 
       <button
+        type="button"
         onClick={handleNext}
         className="carousel-arrow arrow-next"
         aria-label="Next Slide"
       >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
           <polyline points="9 18 15 12 9 6" />
         </svg>
       </button>
 
-      {/* Pagination Dots */}
       <div className="carousel-dots">
         {slides.map((_, index) => (
           <button
             key={index}
-            className={`dot ${currentIndex === index ? "active" : ""}`}
+            type="button"
+            className={`dot ${
+              currentIndex === index ? "active" : ""
+            }`}
             onClick={() => setCurrentIndex(index)}
             aria-label={`Go to slide ${index + 1}`}
+            aria-current={
+              currentIndex === index ? "true" : undefined
+            }
           />
         ))}
       </div>

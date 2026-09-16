@@ -1,17 +1,49 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import Navbar from "@/components/ui/Navbar/Navbar";
 import CouponBox from "@/components/ui/Coupon/CouponBox";
+import { useCart } from "@/app/context/CartContext";
+
 import "@/components/ui/Coupon/coupon.css";
-import "@/app/checkout/checkout.css";
+import "./checkout.css";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const [discount, setDiscount] = useState(0);
 
-  const subtotal = 780;
+  const {
+    cartItems,
+    subtotal,
+    deliveryFee,
+    discount,
+    totalAmount,
+    couponCode,
+    applyCoupon,
+    removeCoupon,
+  } = useCart();
+
+  if (cartItems.length === 0) {
+    return (
+      <>
+        <Navbar />
+
+        <main className="checkout-page">
+          <h1>Checkout</h1>
+
+          <p>Your cart is empty. Add products before checking out.</p>
+
+          <button
+            type="button"
+            className="save-address-btn"
+            onClick={() => router.push("/products")}
+          >
+            Explore Products
+          </button>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
@@ -21,13 +53,40 @@ export default function CheckoutPage() {
         <h1>Checkout</h1>
 
         <CouponBox
-          subtotal={subtotal}
-          onApply={(coupon) => {
-            setDiscount(coupon.discount);
-          }}
+          activeCoupon={couponCode}
+          onApply={applyCoupon}
+          onRemove={removeCoupon}
         />
 
+        <div className="checkout-order-totals">
+          <div>
+            <span>Subtotal</span>
+            <strong>₹{subtotal}</strong>
+          </div>
+
+          <div>
+            <span>Delivery</span>
+            <strong>
+              {deliveryFee === 0 ? "FREE" : `₹${deliveryFee}`}
+            </strong>
+          </div>
+
+          {discount > 0 && (
+            <div>
+              <span>Discount</span>
+              <strong>-₹{discount}</strong>
+            </div>
+          )}
+
+          <div>
+            <span>Total</span>
+            <strong>₹{totalAmount}</strong>
+          </div>
+        </div>
+
         <button
+          type="button"
+          className="save-address-btn"
           onClick={() => router.push("/address")}
         >
           Continue

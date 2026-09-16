@@ -1,4 +1,3 @@
-import React from "react";
 import ProductCard from "../Products-card/ProductCard";
 
 export default function NewArrivalsGrid({ products = [] }) {
@@ -15,13 +14,7 @@ export default function NewArrivalsGrid({ products = [] }) {
       {products.map((product) => (
         <ProductCard
           key={product.id}
-          id={product.id}
-          name={product.name}
-          category={product.category}
-          price={product.price}
-          description={product.description}
-          image={product.image}
-          size={product.size}
+          product={product}
         />
       ))}
     </div>

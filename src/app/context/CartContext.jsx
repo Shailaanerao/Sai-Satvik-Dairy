@@ -1,151 +1,233 @@
 "use client";
 
-import React, {
+import {
   createContext,
   useContext,
-  useState,
   useEffect,
+  useMemo,
+  useState,
 } from "react";
 
-const CartContext = createContext();
+const CartContext = createContext(null);
+
+const CART_STORAGE_KEY = "sai_satvik_cart";
+const FREE_DELIVERY_THRESHOLD = 500;
+const DELIVERY_FEE = 40;
+const AUTO_DISCOUNT_THRESHOLD = 1000;
+const AUTO_DISCOUNT_AMOUNT = 100;
+
+const couponRules = {
+  SAI10: {
+    type: "percentage",
+    value: 10,
+  },
+  FRESH20: {
+    type: "percentage",
+    value: 20,
+  },
+  DAIRY100: {
+    type: "fixed",
+    value: 100,
+  },
+};
+
+function getCouponDiscount(code, subtotal) {
+  const rule = couponRules[code];
+
+  if (!rule || subtotal <= 0) {
+    return 0;
+  }
+
+  if (rule.type === "fixed") {
+    return Math.min(rule.value, subtotal);
+  }
+
+  return Math.round((subtotal * rule.value) / 100);
+}
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [couponCode, setCouponCode] = useState(null);
+  const [hasHydrated, setHasHydrated] = useState(false);
 
-  // Load cart from localStorage
   useEffect(() => {
     try {
-      const saved = localStorage.getItem("sai_satvik_cart");
-      if (saved) {
-        setCartItems(JSON.parse(saved));
+      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+
+      if (savedCart) {
+        const parsedCart = JSON.parse(savedCart);
+
+        if (Array.isArray(parsedCart)) {
+          setCartItems(parsedCart);
+        }
       }
     } catch (error) {
       console.error("Failed to load cart:", error);
+    } finally {
+      setHasHydrated(true);
     }
   }, []);
 
-  // Save cart to localStorage
   useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
+
     try {
-      localStorage.setItem(
-        "sai_satvik_cart",
-        JSON.stringify(cartItems)
-      );
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
     } catch (error) {
       console.error("Failed to save cart:", error);
     }
-  }, [cartItems]);
+  }, [cartItems, hasHydrated]);
 
-  // ADD TO CART
-  const addToCart = (product) => {
-    if (!product || !product.id) return;
+  const addToCart = (product, quantity = 1) => {
+    if (!product?.id) {
+      return;
+    }
 
-    setCartItems((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+    const safeQuantity = Math.max(1, Number(quantity) || 1);
 
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+    setCartItems((currentItems) => {
+      const existingItem = currentItems.find(
+        (item) => String(item.id) === String(product.id)
+      );
+
+      if (existingItem) {
+        return currentItems.map((item) =>
+          String(item.id) === String(product.id)
+            ? {
+                ...item,
+                quantity: item.quantity + safeQuantity,
+              }
             : item
         );
       }
 
-      // Convert price to number safely
-      const numericPrice =
-        typeof product.price === "number"
-          ? product.price
-          : Number(
-              String(product.price)
-                .replace(/₹/g, "")
-                .replace(/,/g, "")
-                .replace(/\/.*$/, "")
-                .trim()
-            ) || 0;
-
-      // Extract size/unit if provided or from string price (e.g. ₹65 / L)
-      const parsedSize =
-        product.size ||
-        (typeof product.price === "string" && product.price.includes("/")
-          ? product.price.split("/")[1].trim()
-          : "1 unit");
-
       return [
-        ...prev,
+        ...currentItems,
         {
           id: product.id,
           name: product.name,
           category: product.category,
-          price: numericPrice,
-          size: parsedSize,
-          image: product.image || "/logo.jpeg",
-          quantity: 1,
+          categorySlug: product.categorySlug,
+          price: Number(product.price) || 0,
+          size: product.unit || product.size || "1 unit",
+          image: product.image || product.images?.[0] || "/logo.jpeg",
+          quantity: safeQuantity,
         },
       ];
     });
   };
 
-  // INCREASE QUANTITY
   const increaseQuantity = (id) => {
     setCartItems((items) =>
       items.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        String(item.id) === String(id)
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       )
     );
   };
 
-  // DECREASE QUANTITY
   const decreaseQuantity = (id) => {
     setCartItems((items) =>
       items
         .map((item) =>
-          item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+          String(item.id) === String(id)
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
         )
         .filter((item) => item.quantity > 0)
     );
   };
 
-  // REMOVE ITEM
   const removeItem = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
+    setCartItems((items) =>
+      items.filter((item) => String(item.id) !== String(id))
+    );
   };
 
-  // CLEAR ENTIRE CART
   const clearCart = () => {
     setCartItems([]);
+    setCouponCode(null);
   };
 
-  // TOTAL QUANTITY
-  const totalQuantity = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
+  const applyCoupon = (code) => {
+    const normalizedCode = String(code || "").trim().toUpperCase();
 
-  // SUBTOTAL
-  const subtotal = cartItems.reduce(
-    (total, item) => total + Number(item.price || 0) * item.quantity,
-    0
-  );
+    if (!couponRules[normalizedCode]) {
+      return {
+        success: false,
+        message: "Invalid coupon code.",
+      };
+    }
 
-  // DELIVERY & DISCOUNT RULES
-  const deliveryFee = subtotal === 0 || subtotal >= 500 ? 0 : 40;
-  const discount = subtotal >= 1000 ? 100 : 0;
-  const totalAmount = subtotal + deliveryFee - discount;
+    setCouponCode(normalizedCode);
+
+    return {
+      success: true,
+      message: `Coupon ${normalizedCode} applied successfully!`,
+    };
+  };
+
+  const removeCoupon = () => {
+    setCouponCode(null);
+  };
+
+  const totals = useMemo(() => {
+    const totalQuantity = cartItems.reduce(
+      (total, item) => total + Number(item.quantity || 0),
+      0
+    );
+
+    const subtotal = cartItems.reduce(
+      (total, item) =>
+        total + Number(item.price || 0) * Number(item.quantity || 0),
+      0
+    );
+
+    const deliveryFee =
+      subtotal === 0 || subtotal >= FREE_DELIVERY_THRESHOLD
+        ? 0
+        : DELIVERY_FEE;
+
+    const automaticDiscount =
+      subtotal >= AUTO_DISCOUNT_THRESHOLD ? AUTO_DISCOUNT_AMOUNT : 0;
+
+    const couponDiscount = getCouponDiscount(couponCode, subtotal);
+
+    // Retains the existing automatic discount while preventing two discounts
+    // from being stacked on the same static order.
+    const discount = Math.max(automaticDiscount, couponDiscount);
+
+    const totalAmount = Math.max(0, subtotal + deliveryFee - discount);
+
+    return {
+      totalQuantity,
+      subtotal,
+      deliveryFee,
+      automaticDiscount,
+      couponDiscount,
+      discount,
+      totalAmount,
+    };
+  }, [cartItems, couponCode]);
 
   return (
     <CartContext.Provider
       value={{
         cartItems,
+        couponCode,
+        hasHydrated,
         addToCart,
         increaseQuantity,
         decreaseQuantity,
         removeItem,
         clearCart,
-        totalQuantity,
-        subtotal,
-        deliveryFee,
-        discount,
-        totalAmount,
+        applyCoupon,
+        removeCoupon,
+        ...totals,
+        freeDeliveryThreshold: FREE_DELIVERY_THRESHOLD,
       }}
     >
       {children}
@@ -155,8 +237,10 @@ export function CartProvider({ children }) {
 
 export function useCart() {
   const context = useContext(CartContext);
+
   if (!context) {
     throw new Error("useCart must be used within CartProvider");
   }
+
   return context;
 }

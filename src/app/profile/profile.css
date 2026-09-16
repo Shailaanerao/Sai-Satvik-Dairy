@@ -1,0 +1,1341 @@
+/* =========================================
+   SAI SATVIK PROFILE
+========================================= */
+
+.profile-page {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  background: #faf9f5;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.profile-sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e5e5e5;
+  padding: 28px 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-user-mini {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 5px 10px 25px;
+  border-bottom: 1px solid #eeeae1;
+  margin-bottom: 18px;
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #23482a;
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.profile-user-mini div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-user-mini strong {
+  color: #23482a;
+  font-size: 14px;
+}
+
+.profile-user-mini span {
+  color: #777777;
+  font-size: 11px;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.profile-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.profile-menu-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+
+  display: grid;
+  grid-template-columns: 32px 1fr 20px;
+  align-items: center;
+
+  text-align: left;
+
+  padding: 12px 10px;
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.profile-menu-item:hover {
+  background: #f2f5ef;
+}
+
+.profile-menu-item.active {
+  background: #23482a;
+  color: #ffffff;
+}
+
+.menu-icon {
+  font-size: 17px;
+  text-align: center;
+}
+
+.menu-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.menu-text strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.menu-text small {
+  font-size: 10px;
+  color: #888888;
+}
+
+.profile-menu-item.active
+.menu-text small {
+  color: #dbe6d8;
+}
+
+.menu-arrow {
+  font-size: 15px;
+  opacity: 0.7;
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.logout-button {
+  margin-top: auto;
+
+  border: 1px solid #e3e3e3;
+  background: #ffffff;
+
+  color: #7c2f2f;
+
+  padding: 12px 15px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.logout-button:hover {
+  background: #fff7f7;
+}
+
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.profile-main {
+  min-width: 0;
+  padding: 45px;
+  max-width: 1250px;
+  width: 100%;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.profile-header {
+  margin-bottom: 28px;
+}
+
+.profile-eyebrow {
+  display: inline-block;
+
+  color: #6d8758;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+
+  margin-bottom: 7px;
+}
+
+.profile-header h1 {
+  margin: 0;
+
+  color: #23482a;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 38px;
+  line-height: 1.15;
+}
+
+.profile-header p {
+  margin: 9px 0 0;
+
+  color: #777777;
+
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+
+  margin-bottom: 22px;
+}
+
+.profile-stat-card {
+  background: #ffffff;
+
+  border: 1px solid #e8e5dc;
+
+  border-radius: 14px;
+
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+}
+
+.stat-icon {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eef3e9;
+  color: #23482a;
+
+  font-size: 18px;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stat-content span {
+  color: #777777;
+  font-size: 10px;
+}
+
+.stat-content strong {
+  color: #23482a;
+  font-size: 17px;
+}
+
+.stat-content small {
+  color: #9a9a9a;
+  font-size: 9px;
+}
+
+
+/* =========================================
+   REUSABLE SECTION CARD
+========================================= */
+
+.profile-section-card {
+  background: #ffffff;
+
+  border: 1px solid #e8e5dc;
+
+  border-radius: 16px;
+
+  margin-bottom: 22px;
+
+  overflow: hidden;
+}
+
+.profile-card-header {
+  padding: 22px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border-bottom: 1px solid #eeeae1;
+}
+
+.profile-card-header h3 {
+  margin: 0;
+
+  color: #35402e;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 20px;
+}
+
+.profile-card-header p {
+  margin: 5px 0 0;
+
+  color: #888888;
+
+  font-size: 11px;
+}
+
+.profile-card-content {
+  padding: 24px;
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.primary-button,
+.outline-button {
+  border-radius: 8px;
+
+  padding: 10px 16px;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.primary-button {
+  border: 1px solid #23482a;
+  background: #23482a;
+  color: #ffffff;
+}
+
+.primary-button:hover {
+  background: #1b3820;
+}
+
+.primary-button.small {
+  padding: 8px 12px;
+}
+
+.outline-button {
+  border: 1px solid #23482a;
+  background: #ffffff;
+  color: #23482a;
+}
+
+.outline-button:hover {
+  background: #f2f5ef;
+}
+
+
+/* =========================================
+   PERSONAL INFORMATION
+========================================= */
+
+.profile-information {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.information-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.information-item span {
+  color: #999999;
+  font-size: 10px;
+}
+
+.information-item strong {
+  color: #35402e;
+  font-size: 13px;
+  word-break: break-word;
+}
+
+
+/* =========================================
+   QUICK LINKS
+========================================= */
+
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.quick-links button {
+  border: 1px solid #e8e5dc;
+  background: #ffffff;
+
+  border-radius: 12px;
+
+  padding: 17px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  transition: 0.2s ease;
+}
+
+.quick-links button:hover {
+  border-color: #b8c8af;
+  background: #f9fbf7;
+}
+
+.quick-links span {
+  font-size: 19px;
+  color: #23482a;
+}
+
+.quick-links strong {
+  color: #35402e;
+  font-size: 12px;
+}
+
+.quick-links small {
+  color: #888888;
+  font-size: 9px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.profile-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.profile-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.profile-form-field label {
+  color: #4d5548;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.profile-form-field input {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  border: 1px solid #deded8;
+
+  border-radius: 8px;
+
+  background: #ffffff;
+
+  padding: 12px 13px;
+
+  color: #333333;
+
+  font-size: 12px;
+
+  outline: none;
+}
+
+.profile-form-field input:focus {
+  border-color: #6d8758;
+  box-shadow: 0 0 0 2px rgba(109, 135, 88, 0.08);
+}
+
+.form-actions {
+  margin-top: 25px;
+
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* =========================================
+   ADDRESSES
+========================================= */
+
+.addresses-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.address-card {
+  border: 1px solid #e5e5df;
+
+  border-radius: 12px;
+
+  padding: 18px;
+}
+
+.address-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 18px;
+}
+
+.address-labels {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.address-type {
+  background: #eef3e9;
+  color: #567044;
+
+  padding: 5px 8px;
+
+  border-radius: 5px;
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.default-badge {
+  display: inline-block;
+
+  background: #edf4e9;
+  color: #5c754b;
+
+  padding: 4px 7px;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.address-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.address-actions button {
+  border: none;
+  background: transparent;
+
+  color: #23482a;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+.address-actions button:last-child {
+  color: #9b4545;
+}
+
+.address-card h4 {
+  margin: 0 0 7px;
+
+  color: #35402e;
+
+  font-size: 13px;
+}
+
+.address-card p {
+  margin: 0 0 8px;
+
+  color: #777777;
+
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.address-phone {
+  color: #555555;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   PAYMENTS
+========================================= */
+
+.payments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-card {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  border: 1px solid #e5e5df;
+
+  border-radius: 12px;
+
+  padding: 15px;
+}
+
+.payment-icon {
+  width: 45px;
+  height: 45px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: #eef3e9;
+  color: #23482a;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.payment-details {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.payment-details strong {
+  color: #35402e;
+  font-size: 12px;
+}
+
+.payment-details span {
+  color: #777777;
+  font-size: 10px;
+}
+
+.payment-details small {
+  color: #999999;
+  font-size: 9px;
+}
+
+.remove-payment {
+  border: none;
+  background: transparent;
+
+  color: #9b4545;
+
+  font-size: 10px;
+
+  cursor: pointer;
+}
+
+
+/* =========================================
+   WALLET
+========================================= */
+
+.wallet-main-card {
+  background: #23482a;
+  color: #ffffff;
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  margin-bottom: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  min-height: 150px;
+
+  box-sizing: border-box;
+}
+
+.wallet-main-card span {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.wallet-main-card h2 {
+  margin: 8px 0;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 38px;
+}
+
+.wallet-main-card p {
+  margin: 0;
+
+  font-size: 10px;
+  opacity: 0.75;
+}
+
+.wallet-icon {
+  width: 65px;
+  height: 65px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  font-size: 27px;
+}
+
+
+/* =========================================
+   TRANSACTIONS
+========================================= */
+
+.transactions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-row {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 15px 0;
+
+  border-bottom: 1px solid #eeeae1;
+}
+
+.transaction-row:last-child {
+  border-bottom: none;
+}
+
+.transaction-icon {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.transaction-icon.credit {
+  background: #edf5e9;
+  color: #587447;
+}
+
+.transaction-icon.debit {
+  background: #f8eeee;
+  color: #a05c5c;
+}
+
+.transaction-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.transaction-info strong {
+  color: #35402e;
+  font-size: 12px;
+}
+
+.transaction-info span {
+  color: #999999;
+  font-size: 9px;
+}
+
+.transaction-credit {
+  color: #587447;
+  font-size: 12px;
+}
+
+.transaction-debit {
+  color: #a05c5c;
+  font-size: 12px;
+}
+
+
+/* =========================================
+   LOYALTY
+========================================= */
+
+.loyalty-card {
+  background: #23482a;
+  color: #ffffff;
+
+  border-radius: 18px;
+
+  padding: 28px;
+
+  margin-bottom: 22px;
+}
+
+.loyalty-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.loyalty-top span {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.loyalty-top h2 {
+  margin: 8px 0 0;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 35px;
+}
+
+.loyalty-icon {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 23px;
+}
+
+.loyalty-progress {
+  height: 7px;
+
+  background: rgba(255, 255, 255, 0.18);
+
+  border-radius: 20px;
+
+  margin-top: 25px;
+
+  overflow: hidden;
+}
+
+.loyalty-progress-fill {
+  height: 100%;
+
+  background: #ffffff;
+
+  border-radius: inherit;
+}
+
+.loyalty-card p {
+  margin: 9px 0 0;
+
+  font-size: 9px;
+  opacity: 0.75;
+}
+
+
+/* =========================================
+   EARN POINTS
+========================================= */
+
+.earn-points-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+
+/* =========================================
+   REFERRAL
+========================================= */
+
+.referral-card {
+  background: #ffffff;
+
+  border: 1px solid #e8e5dc;
+
+  border-radius: 18px;
+
+  padding: 30px;
+
+  display: flex;
+
+  gap: 25px;
+}
+
+.referral-icon {
+  width: 60px;
+  height: 60px;
+
+  flex-shrink: 0;
+
+  border-radius: 14px;
+
+  background: #eef3e9;
+  color: #23482a;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+}
+
+.referral-content {
+  flex: 1;
+}
+
+.referral-label {
+  color: #6d8758;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+}
+
+.referral-content h3 {
+  margin: 8px 0;
+
+  color: #35402e;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 25px;
+}
+
+.referral-content p {
+  color: #777777;
+
+  font-size: 11px;
+  line-height: 1.6;
+
+  max-width: 600px;
+}
+
+.referral-code {
+  max-width: 350px;
+
+  display: flex;
+
+  border: 1px solid #deded8;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  margin-top: 20px;
+}
+
+.referral-code span {
+  flex: 1;
+
+  padding: 11px 13px;
+
+  color: #35402e;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.referral-code button {
+  border: none;
+
+  background: #23482a;
+  color: #ffffff;
+
+  padding: 0 17px;
+
+  cursor: pointer;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.referral-stats {
+  display: flex;
+
+  gap: 40px;
+
+  margin-top: 22px;
+}
+
+.referral-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.referral-stats strong {
+  color: #35402e;
+  font-size: 18px;
+}
+
+.referral-stats span {
+  color: #999999;
+  font-size: 9px;
+}
+
+
+/* =========================================
+   MEMBERSHIP
+========================================= */
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+.membership-card {
+  position: relative;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e5df;
+
+  border-radius: 15px;
+
+  padding: 24px;
+}
+
+.membership-card.membership-current {
+  border: 2px solid #6d8758;
+}
+
+.current-plan {
+  position: absolute;
+
+  top: 14px;
+  right: 14px;
+
+  background: #edf4e9;
+  color: #5c754b;
+
+  padding: 5px 8px;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.membership-card h3 {
+  margin: 0 0 15px;
+
+  color: #35402e;
+
+  font-family:
+    "Playfair Display",
+    Georgia,
+    serif;
+
+  font-size: 24px;
+}
+
+.membership-price {
+  color: #35402e;
+
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.membership-price span {
+  color: #999999;
+
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.membership-card ul {
+  list-style: none;
+
+  padding: 0;
+
+  margin: 25px 0;
+}
+
+.membership-card li {
+  display: flex;
+  gap: 8px;
+
+  color: #777777;
+
+  font-size: 10px;
+
+  margin-bottom: 12px;
+}
+
+.membership-card li span {
+  color: #6d8758;
+  font-weight: 700;
+}
+
+.membership-button {
+  width: 100%;
+
+  padding: 11px;
+
+  border-radius: 8px;
+
+  border: 1px solid #23482a;
+
+  background: #23482a;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.membership-button:hover {
+  background: #1b3820;
+}
+
+.membership-button:disabled {
+  background: #eef2e9;
+
+  color: #718363;
+
+  border-color: #dbe3d4;
+
+  cursor: default;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+  .profile-page {
+    grid-template-columns: 240px 1fr;
+  }
+
+  .profile-main {
+    padding: 35px 25px;
+  }
+
+  .profile-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quick-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .membership-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+@media (max-width: 800px) {
+  .profile-page {
+    display: block;
+  }
+
+  .profile-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .profile-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .logout-button {
+    margin-top: 18px;
+  }
+
+  .profile-main {
+    padding: 30px 20px;
+  }
+
+  .profile-information,
+  .profile-form-grid,
+  .addresses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .earn-points-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .referral-card {
+    flex-direction: column;
+  }
+}
+
+
+@media (max-width: 550px) {
+  .profile-main {
+    padding: 25px 15px;
+  }
+
+  .profile-navigation {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-links {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-header h1 {
+    font-size: 30px;
+  }
+
+  .profile-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-card-content {
+    padding: 18px;
+  }
+
+  .wallet-main-card {
+    padding: 25px;
+  }
+
+  .wallet-main-card h2 {
+    font-size: 30px;
+  }
+
+  .wallet-icon {
+    width: 55px;
+    height: 55px;
+  }
+
+  .payment-card {
+    align-items: flex-start;
+  }
+
+  .remove-payment {
+    margin-left: auto;
+  }
+
+  .transaction-row {
+    grid-template-columns: 36px 1fr;
+  }
+
+  .transaction-row > strong {
+    grid-column: 2;
+  }
+
+  .referral-card {
+    padding: 22px;
+  }
+
+  .referral-stats {
+    gap: 25px;
+  }
+
+  .membership-grid {
+    grid-template-columns: 1fr;
+  }
+}

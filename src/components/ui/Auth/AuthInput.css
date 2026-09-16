@@ -1,0 +1,84 @@
+.auth-input-group {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.auth-input-group label {
+  display: block;
+  margin-bottom: 7px;
+
+  color: #23482a;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.required-star {
+  margin-left: 3px;
+  color: #d9534f;
+  font-size: 12px;
+}
+
+.auth-input-group input {
+  box-sizing: border-box;
+
+  display: block;
+  width: 100%;
+  height: 46px;
+
+  padding: 0 14px;
+
+  border: 1px solid #dfe5dc;
+  border-radius: 9px;
+
+  background-color: #ffffff;
+  color: #23482a;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.auth-input-group input::placeholder {
+  color: #a3aaa2;
+  opacity: 1;
+}
+
+.auth-input-group input:hover {
+  border-color: #b9c8b5;
+}
+
+.auth-input-group input:focus {
+  border-color: #719d45;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(113, 157, 69, 0.1);
+}
+
+.auth-input-group input:disabled {
+  background-color: #f5f7f4;
+  cursor: not-allowed;
+}
+
+/* Mobile number */
+.auth-input-group input[type="tel"] {
+  letter-spacing: 0.3px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .auth-input-group {
+    margin-bottom: 16px;
+  }
+
+  .auth-input-group input {
+    height: 45px;
+    font-size: 13px;
+  }
+}

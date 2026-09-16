@@ -1,29 +1,44 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
 import Navbar from "@/components/ui/Navbar/Navbar";
 import OrderSummary from "@/components/ui/OrderSummary/OrderSummary";
-import "@/components/ui/OrderSummary/OrderSummary.css";
+import { useCart } from "@/app/context/CartContext";
 
-const items = [
-  {
-    id: 1,
-    name: "Fresh Farm Milk",
-    price: 65,
-    quantity: 2,
-  },
-  {
-    id: 2,
-    name: "Pure Desi Ghee",
-    price: 650,
-    quantity: 1,
-  },
-];
+import "@/components/ui/OrderSummary/OrderSummary.css";
 
 export default function OrderSummaryPage() {
   const router = useRouter();
 
-  const subtotal = 780;
+  const {
+    cartItems,
+    subtotal,
+    discount,
+    deliveryFee,
+  } = useCart();
+
+  if (cartItems.length === 0) {
+    return (
+      <>
+        <Navbar />
+
+        <main className="checkout-page">
+          <h1>Order Summary</h1>
+
+          <p>Your cart is empty.</p>
+
+          <button
+            type="button"
+            className="save-address-btn"
+            onClick={() => router.push("/products")}
+          >
+            Explore Products
+          </button>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>
@@ -31,13 +46,14 @@ export default function OrderSummaryPage() {
 
       <main className="checkout-page">
         <OrderSummary
-          items={items}
+          items={cartItems}
           subtotal={subtotal}
-          discount={0}
-          delivery={0}
+          discount={discount}
+          delivery={deliveryFee}
         />
 
         <button
+          type="button"
           className="save-address-btn"
           onClick={() => router.push("/payment")}
         >

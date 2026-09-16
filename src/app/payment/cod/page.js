@@ -2,10 +2,18 @@
 
 import { useRouter } from "next/navigation";
 
+import { useCart } from "@/app/context/CartContext";
+
 export default function CODPage() {
   const router = useRouter();
+  const { cartItems, totalAmount } = useCart();
 
   const placeOrder = () => {
+    if (!cartItems.length) {
+      router.push("/cart");
+      return;
+    }
+
     router.push("/order-confirmation");
   };
 
@@ -17,16 +25,16 @@ export default function CODPage() {
         <h2>Cash on Delivery</h2>
 
         <p>
-          Pay in cash when your Sai Satvik Dairy order
-          arrives at your doorstep.
+          Pay in cash when your Sai Satvik Dairy order arrives at your
+          doorstep.
         </p>
 
         <div className="cod-info">
           <strong>Amount Payable</strong>
-          <span>₹780</span>
+          <span>₹{totalAmount}</span>
         </div>
 
-        <button onClick={placeOrder}>
+        <button type="button" onClick={placeOrder}>
           Place Order
         </button>
       </div>

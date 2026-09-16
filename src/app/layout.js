@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
           <main style={{ flex: "1 0 auto" }}>
             {children}
           </main>
-          <Footer />
+          {/* <Footer /> */}
         </CartProvider>
       </body>
     </html>

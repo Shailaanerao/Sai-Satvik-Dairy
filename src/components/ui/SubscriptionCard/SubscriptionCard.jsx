@@ -1,84 +1,172 @@
-import Link from "next/link";
-import "./SubscriptionCard.css";
+"use client";
+
+import { useState } from "react";
 
 export default function SubscriptionCard({
-  title,
-  price,
-  period,
-  description,
-  features,
-  popular = false,
+  product,
+  onSubscribe,
 }) {
+
+  const [frequency, setFrequency] =
+    useState("daily");
+
+  const [selected, setSelected] =
+    useState(false);
+
+
+  const options = [
+    {
+      id: "daily",
+      title: "Daily",
+      subtitle:
+        "Fresh delivery every morning",
+    },
+
+    {
+      id: "weekly",
+      title: "Weekly",
+      subtitle:
+        "Convenient weekly delivery",
+    },
+  ];
+
+
+  const handleSubscribe = () => {
+
+    setSelected(true);
+
+    onSubscribe?.({
+      productId: product.id,
+      productName: product.name,
+      frequency,
+    });
+
+  };
+
+
   return (
-    <div className={`subscription-card ${popular ? "popular" : ""}`}>
+    <section className="subscription-card">
 
-      {/* Popular Badge */}
-      {popular && (
-        <div className="popular-badge">
-          MOST POPULAR
-        </div>
-      )}
 
-      {/* Card Header */}
+      {/* HEADER */}
+
       <div className="subscription-card-header">
 
-        <h3 className="subscription-title">
-          {title}
-        </h3>
+        <div>
 
-        <p className="subscription-description">
-          {description}
-        </p>
+          <span className="subscription-eyebrow">
+            FRESHNESS ON REPEAT
+          </span>
+
+          <h2>
+            Subscribe & Save
+          </h2>
+
+          <p>
+            Get your favourite dairy products
+            delivered automatically.
+          </p>
+
+        </div>
+
+
+        <div className="subscription-symbol">
+          ↻
+        </div>
 
       </div>
 
 
-      {/* Price */}
-      <div className="subscription-price">
+      {/* OPTIONS */}
 
-        <span className="price">
-          {price}
+      <div className="subscription-options">
+
+        {options.map(
+          (option) => (
+
+            <button
+              key={option.id}
+              type="button"
+
+              className={
+                frequency === option.id
+                  ? "subscription-option active"
+                  : "subscription-option"
+              }
+
+              onClick={() =>
+                setFrequency(option.id)
+              }
+            >
+
+              <span className="subscription-radio">
+
+                {frequency === option.id
+                  ? "✓"
+                  : ""}
+
+              </span>
+
+
+              <span className="subscription-option-text">
+
+                <strong>
+                  {option.title}
+                </strong>
+
+                <small>
+                  {option.subtitle}
+                </small>
+
+              </span>
+
+            </button>
+
+          )
+        )}
+
+      </div>
+
+
+      {/* BENEFITS */}
+
+      <div className="subscription-benefits">
+
+        <span>
+          ✓ Save 5%
         </span>
 
-        <span className="period">
-          {period}
+        <span>
+          ✓ Pause anytime
+        </span>
+
+        <span>
+          ✓ Skip a delivery
+        </span>
+
+        <span>
+          ✓ Cancel anytime
         </span>
 
       </div>
 
 
-      {/* Features */}
-      <div className="subscription-features">
+      {/* BUTTON */}
 
-        {features.map((feature, index) => (
-          <div
-            className="subscription-feature"
-            key={index}
-          >
-
-            <span className="feature-check">
-              ✓
-            </span>
-
-            <span>
-              {feature}
-            </span>
-
-          </div>
-        ))}
-
-      </div>
-
-
-      {/* Button */}
-      <Link
-        href="/contact"
-        className="subscription-btn"
+      <button
+        type="button"
+        className="subscription-submit"
+        onClick={handleSubscribe}
       >
-        Choose Plan
-        <span>→</span>
-      </Link>
 
-    </div>
+        {selected
+          ? "Subscription Selected ✓"
+          : `Subscribe ${frequency === "daily"
+              ? "Daily"
+              : "Weekly"}`}
+
+      </button>
+
+    </section>
   );
 }

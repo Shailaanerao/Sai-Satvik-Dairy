@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 
-const coupons = {
-  SAI10: 10,
-  FRESH20: 20,
-  DAIRY100: 100,
-};
+const availableCoupons = ["SAI10", "FRESH20", "DAIRY100"];
 
-export default function CouponBox({ subtotal, onApply }) {
-  const [coupon, setCoupon] = useState("");
+export default function CouponBox({
+  onApply,
+  onRemove,
+  activeCoupon = null,
+}) {
+  const [coupon, setCoupon] = useState(activeCoupon || "");
   const [message, setMessage] = useState("");
 
   const applyCoupon = () => {
@@ -20,31 +20,28 @@ export default function CouponBox({ subtotal, onApply }) {
       return;
     }
 
-    if (!coupons[code]) {
-      setMessage("Invalid coupon code.");
+    const result = onApply?.(code);
+
+    if (!result?.success) {
+      setMessage(result?.message || "Invalid coupon code.");
       return;
     }
 
-    let discount;
+    setCoupon(code);
+    setMessage(result.message);
+  };
 
-    if (code === "DAIRY100") {
-      discount = Math.min(100, subtotal);
-    } else {
-      discount = Math.round((subtotal * coupons[code]) / 100);
-    }
-
-    onApply({
-      code,
-      discount,
-    });
-
-    setMessage(`Coupon ${code} applied successfully!`);
+  const removeCoupon = () => {
+    onRemove?.();
+    setCoupon("");
+    setMessage("Coupon removed.");
   };
 
   return (
     <div className="coupon-box">
       <div className="coupon-title">
         <span>🏷️</span>
+
         <div>
           <h3>Apply Coupon</h3>
           <p>Save more on your dairy order</p>
@@ -56,19 +53,38 @@ export default function CouponBox({ subtotal, onApply }) {
           type="text"
           placeholder="Enter coupon code"
           value={coupon}
-          onChange={(e) => setCoupon(e.target.value)}
+          onChange={(event) => setCoupon(event.target.value)}
         />
 
-        <button onClick={applyCoupon}>Apply</button>
+        <button type="button" onClick={applyCoupon}>
+          Apply
+        </button>
       </div>
+
+      {activeCoupon && (
+        <button
+          type="button"
+          className="coupon-remove-btn"
+          onClick={removeCoupon}
+        >
+          Remove {activeCoupon}
+        </button>
+      )}
 
       {message && <p className="coupon-message">{message}</p>}
 
       <div className="available-coupons">
         <span>Available:</span>
-        <button onClick={() => setCoupon("SAI10")}>SAI10</button>
-        <button onClick={() => setCoupon("FRESH20")}>FRESH20</button>
-        <button onClick={() => setCoupon("DAIRY100")}>DAIRY100</button>
+
+        {availableCoupons.map((code) => (
+          <button
+            key={code}
+            type="button"
+            onClick={() => setCoupon(code)}
+          >
+            {code}
+          </button>
+        ))}
       </div>
     </div>
   );

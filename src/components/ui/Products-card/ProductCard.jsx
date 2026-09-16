@@ -1,137 +1,99 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
 import "./ProductCard.css";
 
-export default function ProductCard({
-  id,
-  name,
-  category,
-  price,
-  image,
-  description,
-  size,
-}) {
+export default function ProductCard({ product, onAddToCart }) {
   const { addToCart } = useCart();
-  const [added, setAdded] = useState(false);
-  const [imgSrc, setImgSrc] = useState(image || "/logo.jpeg");
+  const [imageSrc, setImageSrc] = useState(
+    product?.image || product?.images?.[0] || "/logo.jpeg"
+  );
 
-  const handleAddToCart = () => {
-    addToCart({
-      id,
-      name,
-      category,
-      price,
-      image: imgSrc,
-      description,
-      size,
-    });
+  if (!product) {
+    return null;
+  }
 
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1200);
+  const handleAdd = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (onAddToCart) {
+      onAddToCart(product);
+      return;
+    }
+
+    addToCart(product);
   };
 
-  return (
-    <div className="product-card">
-      {/* Product Image */}
-      <div className="product-image-wrapper">
-        <Image
-          src={imgSrc}
-          alt={name || "Dairy Product"}
-          fill
-          sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 20vw"
-          className="product-image"
-          onError={() => setImgSrc("/logo.jpeg")}
-        />
+  const rating = Number(product.rating || 0);
+  const reviewCount = Number(product.reviewCount || 0);
 
-        {/* Category */}
-        {category && (
-          <span className="product-category">
-            {category}
-          </span>
+  return (
+    <article className="products-card">
+      <Link
+        href={`/products/${product.id}`}
+        className="products-card-image"
+      >
+        {product.badge && (
+          <span className="products-card-badge">{product.badge}</span>
         )}
 
-        {/* Wishlist */}
-        <button
-          type="button"
-          className="wishlist-btn"
-          aria-label={`Add ${name} to wishlist`}
+        <img
+          src={imageSrc}
+          alt={product.name}
+          onError={() => setImageSrc("/logo.jpeg")}
+        />
+
+        <span className="products-card-view">View Product</span>
+      </Link>
+
+      <div className="products-card-content">
+        <span className="products-card-category">
+          {product.category}
+        </span>
+
+        <Link
+          href={`/products/${product.id}`}
+          className="products-card-name"
         >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M20.8 8.7c0 5.5-8.8 10.3-8.8 10.3S3.2 14.2 3.2 8.7A4.7 4.7 0 0 1 12 6.4a4.7 4.7 0 0 1 8.8 2.3Z" />
-          </svg>
-        </button>
-      </div>
+          {product.name}
+        </Link>
 
-      {/* Product Information */}
-      <div className="product-info">
-        <h3 className="product-name">
-          {name}
-        </h3>
-
-        <p className="product-description">
-          {description}
+        <p className="products-card-description">
+          {product.description}
         </p>
 
-        {/* Price + Add */}
-        <div className="product-bottom">
-          <div className="product-price">
-            {price}
+        <div className="products-card-rating">
+          <span className="rating-stars" aria-label={`${rating} out of 5`}>
+            {"★".repeat(Math.round(rating))}
+            {"☆".repeat(5 - Math.round(rating))}
+          </span>
+
+          <strong>{rating.toFixed(1)}</strong>
+          <span>({reviewCount})</span>
+        </div>
+
+        <div className="products-card-footer">
+          <div className="products-card-price">
+            <strong>₹{product.price}</strong>
+
+            {product.oldPrice && <del>₹{product.oldPrice}</del>}
+
+            <span>/ {product.unit}</span>
           </div>
 
           <button
             type="button"
-            className={`product-add-btn ${added ? "added" : ""}`}
-            onClick={handleAddToCart}
+            className="products-card-add"
+            onClick={handleAdd}
+            aria-label={`Add ${product.name} to cart`}
           >
-            {added ? (
-              <>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-                Added
-              </>
-            ) : (
-              <>
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="12" y1="5" x2="12" y2="19" />
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                </svg>
-                Add
-              </>
-            )}
+            <span>+</span>
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

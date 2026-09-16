@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import QuantityControl from "./QuantityControl";
 
@@ -7,78 +10,52 @@ export default function CartItem({
   onDecrease,
   onRemove,
 }) {
+  const [imageSrc, setImageSrc] = useState(item.image || "/logo.jpeg");
+
   return (
     <div className="cart-item">
-
-      {/* Product Image */}
-
       <div className="cart-product-image">
-
         <Image
-          src={item.image}
-          alt={item.name}
+          src={imageSrc}
+          alt={item.name || "Product"}
           fill
           sizes="110px"
+          onError={() => setImageSrc("/logo.jpeg")}
         />
-
       </div>
-
-
-      {/* Product Information */}
 
       <div className="cart-product-details">
+        {item.category && (
+          <span className="cart-product-category">
+            {item.category}
+          </span>
+        )}
 
-        <span className="cart-product-category">
-          {item.category}
-        </span>
+        <h3>{item.name}</h3>
 
-        <h3>
-          {item.name}
-        </h3>
+        <p>Pack Size: {item.size || "1 unit"}</p>
 
-        <p>
-          Pack Size: {item.size}
-        </p>
-
-        <strong>
-          ₹{item.price}
-        </strong>
-
+        <strong>₹{item.price}</strong>
       </div>
-
-
-      {/* Quantity */}
 
       <QuantityControl
         quantity={item.quantity}
-        onIncrease={() =>
-          onIncrease(item.id)
-        }
-        onDecrease={() =>
-          onDecrease(item.id)
-        }
+        onIncrease={() => onIncrease(item.id)}
+        onDecrease={() => onDecrease(item.id)}
       />
 
-
-      {/* Total */}
-
       <div className="item-total">
-
-        <strong>
-          ₹{item.price * item.quantity}
-        </strong>
+        <strong>₹{item.price * item.quantity}</strong>
 
         <button
+          type="button"
           className="remove-item"
-          onClick={() =>
-            onRemove(item.id)
-          }
+          onClick={() => onRemove(item.id)}
+          aria-label={`Remove ${item.name} from cart`}
         >
           Remove
         </button>
-
       </div>
-
     </div>
   );
 }

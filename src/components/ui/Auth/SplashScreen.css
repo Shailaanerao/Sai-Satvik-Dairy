@@ -1,0 +1,302 @@
+.splash-screen {
+  position: relative;
+
+  min-height: 100vh;
+  width: 100%;
+
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      #ffffff 0%,
+      #f8f6f0 55%,
+      #eef3eb 100%
+    );
+}
+
+/* Decorative background */
+
+.splash-background-circle {
+  position: absolute;
+
+  border-radius: 50%;
+
+  pointer-events: none;
+}
+
+.splash-circle-one {
+  width: 420px;
+  height: 420px;
+
+  top: -180px;
+  left: -180px;
+
+  background: rgba(113, 157, 69, 0.08);
+}
+
+.splash-circle-two {
+  width: 360px;
+  height: 360px;
+
+  right: -150px;
+  bottom: -150px;
+
+  background: rgba(35, 72, 42, 0.07);
+}
+
+/* Main content */
+
+.splash-content {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 460px;
+
+  padding: 30px 20px;
+
+  box-sizing: border-box;
+
+  text-align: center;
+
+  animation: splashContentIn 1s ease forwards;
+}
+
+/* Logo */
+
+.splash-logo-container {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 24px;
+}
+
+.splash-logo-ring {
+  width: 154px;
+  height: 154px;
+
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 15px 45px rgba(35, 72, 42, 0.14),
+    0 0 0 1px rgba(35, 72, 42, 0.05);
+
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+.splash-logo-ring img {
+  width: 144px;
+  height: 144px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+/* Brand */
+
+.splash-brand h1 {
+  margin: 0;
+
+  color: #23482a;
+
+  font-family: Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 40px;
+  line-height: 1;
+
+  font-weight: 800;
+
+  letter-spacing: -0.8px;
+}
+
+.splash-brand-line {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-top: 10px;
+}
+
+.splash-brand-line span {
+  width: 28px;
+  height: 1px;
+
+  background: #8aa57c;
+}
+
+.splash-brand-line p {
+  margin: 0;
+
+  color: #6b7b67;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+}
+
+.splash-tagline {
+  margin-top: 7px;
+
+  color: #719d45;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 4px;
+}
+
+/* Description */
+
+.splash-description {
+  margin: 30px auto 0;
+
+  color: #667064;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+/* Loading */
+
+.splash-loading {
+  width: 170px;
+
+  margin: 30px auto 0;
+}
+
+.splash-loading-track {
+  width: 100%;
+  height: 4px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: #dfe6dc;
+}
+
+.splash-loading-bar {
+  width: 45%;
+  height: 100%;
+
+  border-radius: 20px;
+
+  background: #23482a;
+
+  animation: splashLoading 1.4s
+    ease-in-out infinite;
+}
+
+.splash-loading span {
+  display: block;
+
+  margin-top: 9px;
+
+  color: #899189;
+
+  font-size: 10px;
+
+  letter-spacing: 1px;
+}
+
+/* Bottom */
+
+.splash-bottom {
+  position: absolute;
+
+  z-index: 2;
+
+  bottom: 25px;
+
+  width: 100%;
+
+  text-align: center;
+
+  color: #899189;
+
+  font-size: 10px;
+
+  letter-spacing: 0.7px;
+}
+
+/* Animations */
+
+@keyframes splashContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes splashLoading {
+  0% {
+    transform: translateX(-160%);
+  }
+
+  100% {
+    transform: translateX(360%);
+  }
+}
+
+@media (max-width: 500px) {
+  .splash-logo-ring {
+    width: 130px;
+    height: 130px;
+  }
+
+  .splash-logo-ring img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .splash-brand h1 {
+    font-size: 34px;
+  }
+
+  .splash-description {
+    font-size: 13px;
+  }
+
+  .splash-bottom {
+    padding: 0 15px;
+  }
+}

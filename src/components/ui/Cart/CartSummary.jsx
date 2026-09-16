@@ -5,141 +5,68 @@ export default function CartSummary({
   deliveryFee,
   discount,
   total,
+  freeDeliveryThreshold = 500,
+  checkoutHref = "/checkout",
+  actionLabel = "Proceed to Checkout",
+  showCheckoutAction = true,
 }) {
+  const amountForFreeDelivery = Math.max(
+    0,
+    freeDeliveryThreshold - subtotal
+  );
+
   return (
     <aside className="cart-summary">
-
-      {/* Header */}
-
       <div className="summary-header">
-
-        <h2>
-          Order Summary
-        </h2>
-
-        <span>
-          ₹
-        </span>
-
+        <h2>Order Summary</h2>
+        <span>₹</span>
       </div>
 
-
-      {/* Subtotal */}
-
       <div className="summary-row">
-
-        <span>
-          Subtotal
-        </span>
-
-        <strong>
-          ₹{subtotal}
-        </strong>
-
+        <span>Subtotal</span>
+        <strong>₹{subtotal}</strong>
       </div>
 
-
-      {/* Delivery */}
-
       <div className="summary-row">
-
-        <span>
-          Delivery
-        </span>
+        <span>Delivery</span>
 
         <strong
-          className={
-            deliveryFee === 0
-              ? "free-delivery"
-              : ""
-          }
+          className={deliveryFee === 0 ? "free-delivery" : ""}
         >
-          {deliveryFee === 0
-            ? "FREE"
-            : `₹${deliveryFee}`}
+          {deliveryFee === 0 ? "FREE" : `₹${deliveryFee}`}
         </strong>
-
       </div>
-
-
-      {/* Discount */}
 
       {discount > 0 && (
-
         <div className="summary-row discount-row">
-
-          <span>
-            Discount
-          </span>
-
-          <strong>
-            -₹{discount}
-          </strong>
-
+          <span>Discount</span>
+          <strong>-₹{discount}</strong>
         </div>
-
       )}
 
-
-      {/* Free Delivery Message */}
-
       <div className="free-delivery-message">
-
-        {subtotal >= 500 ? (
-          <>
-            ✓ You qualify for free delivery
-          </>
-        ) : (
-          <>
-            Add ₹{500 - subtotal} more
-            for free delivery
-          </>
-        )}
-
+        {subtotal >= freeDeliveryThreshold
+          ? "✓ You qualify for free sunrise delivery"
+          : `Add ₹${amountForFreeDelivery} more for free delivery`}
       </div>
 
-
-      {/* Divider */}
-
-      <div className="summary-divider"></div>
-
-
-      {/* Total */}
+      <div className="summary-divider" />
 
       <div className="summary-total">
-
-        <span>
-          Total
-        </span>
-
-        <strong>
-          ₹{total}
-        </strong>
-
+        <span>Total</span>
+        <strong>₹{total}</strong>
       </div>
 
-
-      {/* Checkout */}
-
-      <Link
-        href="/checkout"
-        className="checkout-btn"
-      >
-        Proceed to Checkout
-
-        <span>
-          →
-        </span>
-
-      </Link>
-
-
-      {/* Security */}
+      {showCheckoutAction && (
+        <Link href={checkoutHref} className="checkout-btn">
+          {actionLabel}
+          <span>→</span>
+        </Link>
+      )}
 
       <div className="secure-checkout">
-        🔒 Secure & Safe Checkout
+        🔒 100% Safe & Encrypted Checkout
       </div>
-
     </aside>
   );
 }
