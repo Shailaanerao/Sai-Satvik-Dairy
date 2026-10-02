@@ -1,88 +1,310 @@
+/* =========================================================
+SAI SATVIK DAIRY — CATEGORY DROPDOWN
+Matches current CategoryDropdown.jsx
+========================================================= */
+
 .category-dropdown {
-  position: relative;
-  z-index: 50;
-  flex: 0 0 auto;
+position: relative;
+
+flex: 0 0 auto;
+
+height: 100%;
+
+z-index: 2000;
 }
 
+/* =========================================================
+TRIGGER
+========================================================= */
+
 .category-dropdown-trigger {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  gap: 8px;
-  border: 0;
-  padding: 0 15px;
-  background: transparent;
-  color: #263c2b;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.88rem;
-  font-weight: 650;
-  white-space: nowrap;
+height: 100%;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+gap: 7px;
+
+padding: 0 12px;
+
+border: 0;
+border-right: 1px solid #eeeeee;
+
+border-radius: 8px 0 0 8px;
+
+background: transparent;
+
+color: #315b35;
+
+font-family: inherit;
+
+font-size: 11px;
+font-weight: 600;
+
+white-space: nowrap;
+
+cursor: pointer;
+
+transition:
+background 0.2s ease,
+color 0.2s ease;
 }
 
 .category-dropdown-trigger:hover {
-  color: #2f6b3d;
+background: #f2f6ee;
+
+color: #23482a;
+}
+
+.category-dropdown-trigger:focus-visible {
+outline: 2px solid #719d45;
+outline-offset: -2px;
 }
 
 .category-dropdown-trigger svg {
-  transition: transform 0.2s ease;
+flex: 0 0 auto;
+
+transition: transform 0.2s ease;
 }
+
+/* Rotate arrow while dropdown is open */
 
 .category-dropdown-trigger[aria-expanded="true"] svg {
-  transform: rotate(180deg);
+transform: rotate(180deg);
 }
+
+/* =========================================================
+DROPDOWN MENU
+========================================================= */
 
 .category-dropdown-menu {
-  position: absolute;
-  top: calc(100% + 9px);
-  left: 0;
-  display: grid;
-  width: 220px;
-  max-height: 360px;
-  overflow-y: auto;
-  border: 1px solid #dce7d9;
-  border-radius: 12px;
-  padding: 7px;
-  background: #ffffff;
-  box-shadow: 0 14px 32px rgba(32, 67, 41, 0.16);
+position: absolute;
+
+top: calc(100% + 9px);
+left: 0;
+
+z-index: 9999;
+
+width: 220px;
+max-height: 360px;
+
+display: flex;
+flex-direction: column;
+
+padding: 7px;
+
+overflow-x: hidden;
+overflow-y: auto;
+
+box-sizing: border-box;
+
+border: 1px solid #dce7d9;
+
+border-radius: 12px;
+
+background: #ffffff;
+
+box-shadow:
+0 15px 35px rgba(35, 72, 42, 0.16),
+0 3px 10px rgba(35, 72, 42, 0.07);
+
+animation: categoryDropdownOpen 0.16s ease-out;
+
+scrollbar-width: thin;
+
+scrollbar-color: #c8d8c4 transparent;
 }
 
+.category-dropdown-menu::-webkit-scrollbar {
+width: 5px;
+}
+
+.category-dropdown-menu::-webkit-scrollbar-track {
+background: transparent;
+}
+
+.category-dropdown-menu::-webkit-scrollbar-thumb {
+background: #c8d8c4;
+
+border-radius: 10px;
+}
+
+/* =========================================================
+CATEGORY ITEMS
+========================================================= */
+
 .category-dropdown-item {
-  width: 100%;
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: transparent;
-  color: #354a39;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.87rem;
-  font-weight: 600;
-  text-align: left;
-  transition:
-    background 0.18s ease,
-    color 0.18s ease;
+width: 100%;
+
+flex: 0 0 auto;
+
+display: flex;
+align-items: center;
+
+padding: 10px 11px;
+
+border: 0;
+
+border-radius: 8px;
+
+background: transparent;
+
+color: #3f4942;
+
+font-family: inherit;
+
+font-size: 12px;
+font-weight: 500;
+
+text-align: left;
+
+white-space: nowrap;
+
+cursor: pointer;
+
+box-sizing: border-box;
+
+transition:
+background 0.18s ease,
+color 0.18s ease,
+padding-left 0.18s ease;
 }
 
 .category-dropdown-item:hover {
-  background: #edf6ea;
-  color: #246034;
+padding-left: 14px;
+
+background: #f2f6ee;
+
+color: #23482a;
 }
 
-.category-dropdown-item:focus-visible,
-.category-dropdown-trigger:focus-visible {
-  outline: 3px solid #eab854;
-  outline-offset: 2px;
+.category-dropdown-item:focus-visible {
+outline: 2px solid #719d45;
+outline-offset: -2px;
 }
 
-@media (max-width: 760px) {
-  .category-dropdown-trigger {
-    min-height: 38px;
-    padding: 0 10px;
-    font-size: 0.8rem;
-  }
+/* =========================================================
+ANIMATION
+========================================================= */
 
-  .category-dropdown-menu {
-    width: min(220px, calc(100vw - 32px));
-  }
+@keyframes categoryDropdownOpen {
+from {
+opacity: 0;
+
+
+transform: translateY(-5px);
+
+
+}
+
+to {
+opacity: 1;
+
+
+transform: translateY(0);
+
+
+}
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+.category-dropdown-menu {
+width: 210px;
+}
+
+.category-dropdown-trigger {
+padding-left: 10px;
+padding-right: 10px;
+}
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 680px) {
+.category-dropdown-trigger {
+padding-left: 9px;
+padding-right: 9px;
+
+
+font-size: 10px;
+
+
+}
+
+.category-dropdown-menu {
+width: 200px;
+
+
+max-width: calc(100vw - 20px);
+
+max-height: 55vh;
+
+top: calc(100% + 7px);
+
+
+}
+
+.category-dropdown-item {
+padding: 9px 10px;
+
+
+font-size: 11px;
+
+
+}
+}
+
+/* =========================================================
+SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+.category-dropdown-menu {
+width: 185px;
+
+
+max-width: calc(100vw - 16px);
+
+
+}
+
+.category-dropdown-item {
+padding: 8px 9px;
+
+
+font-size: 10.5px;
+
+
+}
+}
+
+/* =========================================================
+VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+.category-dropdown-menu {
+width: 175px;
+
+
+max-width: calc(100vw - 10px);
+
+
+}
+
+.category-dropdown-item {
+padding: 8px;
+
+
+font-size: 10px;
+
+
+}
 }

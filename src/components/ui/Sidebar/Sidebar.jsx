@@ -2,9 +2,21 @@
 
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import useAuth from "@/hooks/useAuth";
+
 import "./Sidebar.css";
 
 export default function Sidebar({ isOpen, onClose }) {
+  const router = useRouter();
+  const { user, logout } = useAuth();
+
+  const handleLogout = async () => {
+    await logout();
+    onClose();
+    router.replace("/home");
+  };
 
   return (
     <>
@@ -17,7 +29,6 @@ export default function Sidebar({ isOpen, onClose }) {
         />
       )}
 
-
       {/* Sidebar */}
 
       <aside
@@ -25,85 +36,64 @@ export default function Sidebar({ isOpen, onClose }) {
           isOpen ? "sidebar-open" : ""
         }`}
       >
-
         {/* HEADER */}
 
         <div className="sidebar-header">
-
           <div className="sidebar-brand">
-
             <div className="sidebar-logo">
-
               <span>SS</span>
-
             </div>
 
             <div className="sidebar-brand-text">
+              <h2>Sai Satvik</h2>
 
-              <h2>
-                Sai Satvik
-              </h2>
-
-              <span>
-                Dairy Products
-              </span>
-
+              <span>Dairy Products</span>
             </div>
-
           </div>
-
 
           {/* CLOSE */}
 
           <button
+            type="button"
             className="sidebar-close"
             onClick={onClose}
             aria-label="Close sidebar"
           >
             ×
           </button>
-
         </div>
-
 
         {/* PROFILE */}
 
         <Link
-          href="/account"
+          href={user ? "/profile" : "/login"}
           className="sidebar-profile"
           onClick={onClose}
         >
-
           <div className="sidebar-avatar">
-            P
+            {user?.firstName?.charAt(0)?.toUpperCase() || "G"}
           </div>
 
           <div className="sidebar-profile-info">
-
             <strong>
-              Hello, Priya
+              Hello, {user?.firstName || "Guest"}
             </strong>
 
             <span>
-              My Account
+              {user ? "My Account" : "Login / Register"}
             </span>
-
           </div>
-
         </Link>
-
 
         {/* NAVIGATION */}
 
         <nav className="sidebar-navigation">
-
           <p className="sidebar-section-title">
             MENU
           </p>
 
-
           <SidebarLink
-            href="/"
+            href="/home"
             icon={<HomeIcon />}
             text="Home"
             onClose={onClose}
@@ -137,11 +127,9 @@ export default function Sidebar({ isOpen, onClose }) {
             onClose={onClose}
           />
 
-
           <p className="sidebar-section-title information-title">
             INFORMATION
           </p>
-
 
           <SidebarLink
             href="/about"
@@ -163,14 +151,11 @@ export default function Sidebar({ isOpen, onClose }) {
             text="Quality & Testing"
             onClose={onClose}
           />
-
         </nav>
-
 
         {/* BOTTOM */}
 
         <div className="sidebar-bottom">
-
           <SidebarLink
             href="/settings"
             icon={<SettingsIcon />}
@@ -178,28 +163,24 @@ export default function Sidebar({ isOpen, onClose }) {
             onClose={onClose}
           />
 
-          <button
-            className="sidebar-logout"
-            onClick={() => {
-              console.log("Logout clicked");
-            }}
-          >
+          {user && (
+            <button
+              type="button"
+              className="sidebar-logout"
+              onClick={handleLogout}
+            >
+              <LogoutIcon />
 
-            <LogoutIcon />
-
-            <span>
-              Logout
-            </span>
-
-          </button>
-
+              <span>
+                Logout
+              </span>
+            </button>
+          )}
         </div>
-
       </aside>
     </>
   );
 }
-
 
 /* =========================================
    REUSABLE SIDEBAR LINK
@@ -209,28 +190,22 @@ function SidebarLink({
   href,
   icon,
   text,
-  onClose
+  onClose,
 }) {
-
   return (
     <Link
       href={href}
       className="sidebar-link"
       onClick={onClose}
     >
-
       <span className="sidebar-icon">
         {icon}
       </span>
 
-      <span>
-        {text}
-      </span>
-
+      <span>{text}</span>
     </Link>
   );
 }
-
 
 /* =========================================
    ICONS
@@ -246,7 +221,6 @@ function HomeIcon() {
   );
 }
 
-
 function ProductsIcon() {
   return (
     <svg viewBox="0 0 24 24">
@@ -255,7 +229,6 @@ function ProductsIcon() {
     </svg>
   );
 }
-
 
 function OrdersIcon() {
   return (
@@ -268,7 +241,6 @@ function OrdersIcon() {
   );
 }
 
-
 function HeartIcon() {
   return (
     <svg viewBox="0 0 24 24">
@@ -276,7 +248,6 @@ function HeartIcon() {
     </svg>
   );
 }
-
 
 function SubscriptionIcon() {
   return (
@@ -288,7 +259,6 @@ function SubscriptionIcon() {
   );
 }
 
-
 function InfoIcon() {
   return (
     <svg viewBox="0 0 24 24">
@@ -298,7 +268,6 @@ function InfoIcon() {
     </svg>
   );
 }
-
 
 function ContactIcon() {
   return (
@@ -316,17 +285,14 @@ function ContactIcon() {
   );
 }
 
-
 function QualityIcon() {
   return (
     <svg viewBox="0 0 24 24">
       <path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z" />
-
       <path d="M9 12l2 2 4-4" />
     </svg>
   );
 }
-
 
 function SettingsIcon() {
   return (
@@ -342,14 +308,11 @@ function SettingsIcon() {
   );
 }
 
-
 function LogoutIcon() {
   return (
     <svg viewBox="0 0 24 24">
       <path d="M10 5H5v14h5" />
-
       <path d="M14 8l4 4-4 4" />
-
       <path d="M18 12H9" />
     </svg>
   );

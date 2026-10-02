@@ -78,7 +78,7 @@ export default function OTPVerification() {
 
       <div className="auth-bottom-text">
 
-        Didn't receive the OTP?
+        Didn&apos;t receive the OTP?
 
         <button
           type="button"

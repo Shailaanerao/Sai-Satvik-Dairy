@@ -8,10 +8,14 @@ import AuthInput from "./AuthInput";
 import PasswordInput from "./PasswordInput";
 import AuthButton from "./AuthButton";
 
+import useAuth from "@/hooks/useAuth";
+
 import "./AuthForms.css";
 
 export default function RegisterForm() {
   const router = useRouter();
+
+  const { register } = useAuth();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,6 +26,9 @@ export default function RegisterForm() {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -29,32 +36,100 @@ export default function RegisterForm() {
       ...previous,
       [name]: value,
     }));
+
+    if (error) {
+      setError("");
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    setError("");
+
+    if (!formData.firstName.trim()) {
+      setError("Please enter your first name.");
+      return;
+    }
+
+    if (!formData.lastName.trim()) {
+      setError("Please enter your last name.");
+      return;
+    }
+
+    if (!formData.mobile.trim()) {
+      setError("Please enter your mobile number.");
+      return;
+    }
+
+    if (!formData.email.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    if (!formData.password.trim()) {
+      setError("Please create a password.");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError(
+        "Password must be at least 6 characters."
+      );
+      return;
+    }
 
     if (
       formData.password !==
       formData.confirmPassword
     ) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
-    /*
-      Registration API will be connected here later.
+    try {
+      setLoading(true);
 
-      After successful registration,
-      mobile number verification starts.
-    */
+      const data = await register({
+        first_name: formData.firstName.trim(),
+        last_name: formData.lastName.trim(),
+        mobile: formData.mobile.trim(),
+        email: formData.email.trim(),
+        password: formData.password,
+      });
 
-    router.push("/otp-verification");
+      /*
+       * If Supabase requires email confirmation,
+       * there will be no active session yet.
+       */
+      if (!data.session) {
+        router.push(
+          `/login?registered=true`
+        );
+
+        return;
+      }
+
+      router.replace("/home");
+    } catch (error) {
+  console.error("Registration failed:", {
+    message: error?.message,
+    code: error?.code,
+    status: error?.status,
+    name: error?.name,
+  });
+
+  setError(
+    error?.message ||
+      "Registration failed. Please try again."
+  );
+} finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-form">
-
       <AuthLogo />
 
       <div className="auth-heading">
@@ -66,8 +141,13 @@ export default function RegisterForm() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      {error && (
+        <div className="auth-error" role="alert">
+          {error}
+        </div>
+      )}
 
+      <form onSubmit={handleSubmit}>
         <AuthInput
           label="First Name"
           name="firstName"
@@ -90,7 +170,7 @@ export default function RegisterForm() {
           label="Mobile Number"
           name="mobile"
           type="tel"
-          placeholder="Enter mobile number"
+          placeholder="Enter your mobile number"
           value={formData.mobile}
           onChange={handleChange}
           required
@@ -103,6 +183,7 @@ export default function RegisterForm() {
           placeholder="Enter email address"
           value={formData.email}
           onChange={handleChange}
+          required
         />
 
         <PasswordInput
@@ -121,10 +202,14 @@ export default function RegisterForm() {
           onChange={handleChange}
         />
 
-        <AuthButton type="submit">
-          Create Account
+        <AuthButton
+          type="submit"
+          disabled={loading}
+        >
+          {loading
+            ? "Creating Account..."
+            : "Create Account"}
         </AuthButton>
-
       </form>
 
       <div className="auth-bottom-text">
@@ -139,7 +224,6 @@ export default function RegisterForm() {
           Login
         </button>
       </div>
-
     </div>
   );
 }

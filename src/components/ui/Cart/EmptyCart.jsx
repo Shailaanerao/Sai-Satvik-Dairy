@@ -13,7 +13,7 @@ export default function EmptyCart() {
       </h2>
 
       <p>
-        Looks like you haven't added any
+        Looks like you haven&apos;t added any
         dairy products yet.
       </p>
 

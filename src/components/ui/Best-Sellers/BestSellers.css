@@ -8,6 +8,8 @@
   padding: 5rem 1.5rem;
 
   background-color: #ffffff;
+
+  box-sizing: border-box;
 }
 
 .best-sellers-container {
@@ -17,7 +19,6 @@
 
   margin: 0 auto;
 }
-
 
 /* =====================================
    HEADING
@@ -42,6 +43,8 @@
 .best-sellers-label {
   display: block;
 
+  margin-bottom: 0.6rem;
+
   color: #558739;
 
   font-size: 0.75rem;
@@ -50,7 +53,7 @@
 
   letter-spacing: 0.14em;
 
-  margin-bottom: 0.6rem;
+  text-transform: uppercase;
 }
 
 .best-sellers-title {
@@ -83,20 +86,29 @@
   line-height: 1.7;
 }
 
-
 /* =====================================
    PRODUCT GRID
-   5 CARDS IN ONE ROW
+   DESKTOP — 5 CARDS
 ===================================== */
 
 .best-sellers-grid {
   display: grid;
 
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr));
 
   gap: 1rem;
+
+  width: 100%;
 }
 
+/* =====================================
+   PRODUCT CARD
+===================================== */
+
+.best-sellers-grid .products-card {
+  min-width: 0;
+}
 
 /* =====================================
    FOOTER BUTTON
@@ -119,6 +131,8 @@
 
   gap: 0.5rem;
 
+  min-height: 42px;
+
   padding: 0.8rem 1.5rem;
 
   border: 1.5px solid #23482a;
@@ -138,7 +152,8 @@
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .best-sellers-btn:hover {
@@ -147,28 +162,31 @@
   color: #ffffff;
 
   transform: translateY(-2px);
+
+  box-shadow:
+    0 7px 16px rgba(35, 72, 42, 0.12);
 }
 
+.best-sellers-btn:active {
+  transform: translateY(0);
+}
 
 /* =====================================
    LARGE TABLET
 ===================================== */
 
 @media (max-width: 1100px) {
-
   .best-sellers-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
   }
-
 }
-
 
 /* =====================================
    TABLET
 ===================================== */
 
 @media (max-width: 900px) {
-
   .best-sellers-section {
     padding: 4rem 1.5rem;
   }
@@ -190,24 +208,25 @@
   }
 
   .best-sellers-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
-
 }
-
 
 /* =====================================
    MOBILE
+   HORIZONTAL SCROLL
 ===================================== */
 
 @media (max-width: 600px) {
-
   .best-sellers-section {
     padding: 3.5rem 1rem;
   }
 
   .best-sellers-heading {
-    margin-bottom: 2rem;
+    margin-bottom: 1.7rem;
+
+    gap: 0.8rem;
   }
 
   .best-sellers-title {
@@ -216,25 +235,111 @@
 
   .best-sellers-description {
     font-size: 0.85rem;
+
+    line-height: 1.65;
   }
 
+  /*
+   * Horizontal product carousel.
+   * Cards remain in one row and can
+   * be swiped from left to right.
+   */
   .best-sellers-grid {
-    grid-template-columns: 1fr;
+    display: flex;
 
-    gap: 1rem;
+    flex-wrap: nowrap;
+
+    gap: 0.9rem;
+
+    width: calc(100% + 1rem);
+
+    margin-right: -1rem;
+
+    padding: 4px 1rem 14px 2px;
+
+    overflow-x: auto;
+
+    overflow-y: hidden;
+
+    scroll-behavior: smooth;
+
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
   }
 
-}
+  .best-sellers-grid::-webkit-scrollbar {
+    display: none;
+  }
 
+  /*
+   * Mobile card width.
+   * Showing part of the next card makes
+   * it obvious that the row is scrollable.
+   */
+  .best-sellers-grid .products-card {
+    flex: 0 0 78vw;
+
+    width: 78vw;
+
+    max-width: 310px;
+
+    scroll-snap-align: start;
+  }
+
+  .best-sellers-footer {
+    margin-top: 1.3rem;
+  }
+
+  .best-sellers-btn {
+    width: 100%;
+
+    min-height: 45px;
+
+    padding: 0 1rem;
+
+    box-sizing: border-box;
+  }
+}
 
 /* =====================================
    SMALL MOBILE
 ===================================== */
 
 @media (max-width: 400px) {
+  .best-sellers-section {
+    padding: 3rem 0.9rem;
+  }
 
   .best-sellers-title {
     font-size: 1.8rem;
   }
 
+  .best-sellers-description {
+    font-size: 0.82rem;
+  }
+
+  .best-sellers-grid {
+    gap: 0.8rem;
+
+    width: calc(100% + 0.9rem);
+
+    margin-right: -0.9rem;
+
+    padding-right: 0.9rem;
+  }
+
+  .best-sellers-grid .products-card {
+    flex: 0 0 82vw;
+
+    width: 82vw;
+
+    max-width: 290px;
+  }
+
+  .best-sellers-btn {
+    font-size: 0.82rem;
+  }
 }

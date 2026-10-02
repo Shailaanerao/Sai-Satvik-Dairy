@@ -2,245 +2,583 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from "react";
 
+import { supabase } from "@/lib/supabase";
+
 const CartContext = createContext(null);
 
-const CART_STORAGE_KEY = "sai_satvik_cart";
-const FREE_DELIVERY_THRESHOLD = 500;
-const DELIVERY_FEE = 40;
-const AUTO_DISCOUNT_THRESHOLD = 1000;
-const AUTO_DISCOUNT_AMOUNT = 100;
+const CART_STORAGE_PREFIX =
+  "sai_satvik_cart_";
 
 const couponRules = {
   SAI10: {
     type: "percentage",
     value: 10,
   },
-  FRESH20: {
+  SAI20: {
     type: "percentage",
     value: 20,
   },
-  DAIRY100: {
+  FLAT100: {
     type: "fixed",
     value: 100,
   },
 };
 
-function getCouponDiscount(code, subtotal) {
-  const rule = couponRules[code];
-
-  if (!rule || subtotal <= 0) {
-    return 0;
+function getCartStorageKey(userId) {
+  if (!userId) {
+    return null;
   }
 
-  if (rule.type === "fixed") {
-    return Math.min(rule.value, subtotal);
-  }
-
-  return Math.round((subtotal * rule.value) / 100);
+  return `${CART_STORAGE_PREFIX}${userId}`;
 }
 
-export function CartProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [couponCode, setCouponCode] = useState(null);
-  const [hasHydrated, setHasHydrated] = useState(false);
+function loadCartForUser(userId) {
+  const storageKey =
+    getCartStorageKey(userId);
+
+  if (
+    typeof window === "undefined" ||
+    !storageKey
+  ) {
+    return [];
+  }
+
+  try {
+    const storedCart =
+      window.localStorage.getItem(
+        storageKey
+      );
+
+    if (!storedCart) {
+      return [];
+    }
+
+    const parsedCart =
+      JSON.parse(storedCart);
+
+    return Array.isArray(parsedCart)
+      ? parsedCart
+      : [];
+  } catch (error) {
+    console.error(
+      "Failed to load cart from localStorage:",
+      error
+    );
+
+    return [];
+  }
+}
+
+function saveCartForUser(
+  userId,
+  cartItems
+) {
+  const storageKey =
+    getCartStorageKey(userId);
+
+  if (
+    typeof window === "undefined" ||
+    !storageKey
+  ) {
+    return;
+  }
+
+  try {
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify(cartItems)
+    );
+  } catch (error) {
+    console.error(
+      "Failed to save cart to localStorage:",
+      error
+    );
+  }
+}
+
+export function CartProvider({
+  children,
+}) {
+  const [userId, setUserId] =
+    useState(null);
+
+  const [cartItems, setCartItems] =
+    useState([]);
+
+  const [cartReady, setCartReady] =
+    useState(false);
+
+  const [appliedCoupon, setAppliedCoupon] =
+    useState(null);
 
   useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem(CART_STORAGE_KEY);
+    let mounted = true;
 
-      if (savedCart) {
-        const parsedCart = JSON.parse(savedCart);
+    const handleAuthChange = (
+      session
+    ) => {
+      if (!mounted) {
+        return;
+      }
 
-        if (Array.isArray(parsedCart)) {
-          setCartItems(parsedCart);
+      const nextUserId =
+        session?.user?.id || null;
+
+      setUserId(nextUserId);
+
+      setCartItems(
+        nextUserId
+          ? loadCartForUser(nextUserId)
+          : []
+      );
+
+      setAppliedCoupon(null);
+
+      setCartReady(true);
+    };
+
+    const initializeAuth = async () => {
+      try {
+        const {
+          data,
+          error,
+        } = await supabase.auth.getSession();
+
+        if (!mounted) {
+          return;
+        }
+
+        if (error) {
+          console.error(
+            "Failed to restore cart user session:",
+            error
+          );
+
+          handleAuthChange(null);
+          return;
+        }
+
+        handleAuthChange(
+          data?.session || null
+        );
+      } catch (error) {
+        console.error(
+          "Failed to initialize cart user:",
+          error
+        );
+
+        if (mounted) {
+          handleAuthChange(null);
         }
       }
-    } catch (error) {
-      console.error("Failed to load cart:", error);
-    } finally {
-      setHasHydrated(true);
-    }
+    };
+
+    initializeAuth();
+
+    const {
+      data: {
+        subscription,
+      },
+    } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        handleAuthChange(session);
+      }
+    );
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
-    if (!hasHydrated) {
+    if (
+      !cartReady ||
+      !userId
+    ) {
       return;
     }
 
-    try {
-      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
-    } catch (error) {
-      console.error("Failed to save cart:", error);
-    }
-  }, [cartItems, hasHydrated]);
+    saveCartForUser(
+      userId,
+      cartItems
+    );
+  }, [
+    userId,
+    cartItems,
+    cartReady,
+  ]);
 
-  const addToCart = (product, quantity = 1) => {
-    if (!product?.id) {
-      return;
-    }
-
-    const safeQuantity = Math.max(1, Number(quantity) || 1);
-
-    setCartItems((currentItems) => {
-      const existingItem = currentItems.find(
-        (item) => String(item.id) === String(product.id)
-      );
-
-      if (existingItem) {
-        return currentItems.map((item) =>
-          String(item.id) === String(product.id)
-            ? {
-                ...item,
-                quantity: item.quantity + safeQuantity,
-              }
-            : item
+  const addToCart = useCallback(
+    (product, quantity = 1) => {
+      if (!userId) {
+        console.warn(
+          "Cannot add to cart without an authenticated user."
         );
+
+        return;
       }
 
-      return [
-        ...currentItems,
-        {
-          id: product.id,
-          name: product.name,
-          category: product.category,
-          categorySlug: product.categorySlug,
-          price: Number(product.price) || 0,
-          size: product.unit || product.size || "1 unit",
-          image: product.image || product.images?.[0] || "/logo.jpeg",
-          quantity: safeQuantity,
-        },
-      ];
-    });
-  };
+      if (!product?.id) {
+        console.error(
+          "Cannot add product without an id."
+        );
 
-  const increaseQuantity = (id) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        String(item.id) === String(id)
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
+        return;
+      }
+
+      const safeQuantity =
+        Math.max(
+          1,
+          Number(quantity) || 1
+        );
+
+      setCartItems(
+        (currentItems) => {
+          const existingItem =
+            currentItems.find(
+              (item) =>
+                item.id ===
+                product.id
+            );
+
+          if (existingItem) {
+            return currentItems.map(
+              (item) =>
+                item.id ===
+                product.id
+                  ? {
+                      ...item,
+                      quantity:
+                        Number(
+                          item.quantity
+                        ) +
+                        safeQuantity,
+                    }
+                  : item
+            );
+          }
+
+          return [
+            ...currentItems,
+            {
+              ...product,
+              quantity:
+                safeQuantity,
+            },
+          ];
+        }
+      );
+    },
+    [userId]
+  );
+
+  const increaseQuantity =
+    useCallback(
+      (productId) => {
+        if (!userId) {
+          return;
+        }
+
+        setCartItems(
+          (currentItems) =>
+            currentItems.map(
+              (item) =>
+                item.id ===
+                productId
+                  ? {
+                      ...item,
+                      quantity:
+                        Number(
+                          item.quantity
+                        ) + 1,
+                    }
+                  : item
+            )
+        );
+      },
+      [userId]
     );
-  };
 
-  const decreaseQuantity = (id) => {
-    setCartItems((items) =>
-      items
-        .map((item) =>
-          String(item.id) === String(id)
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
+  const decreaseQuantity =
+    useCallback(
+      (productId) => {
+        if (!userId) {
+          return;
+        }
+
+        setCartItems(
+          (currentItems) =>
+            currentItems
+              .map((item) =>
+                item.id ===
+                productId
+                  ? {
+                      ...item,
+                      quantity:
+                        Math.max(
+                          0,
+                          Number(
+                            item.quantity
+                          ) - 1
+                        ),
+                    }
+                  : item
+              )
+              .filter(
+                (item) =>
+                  Number(
+                    item.quantity
+                  ) > 0
+              )
+        );
+      },
+      [userId]
     );
-  };
 
-  const removeItem = (id) => {
-    setCartItems((items) =>
-      items.filter((item) => String(item.id) !== String(id))
-    );
-  };
+  const removeItem = useCallback(
+    (productId) => {
+      if (!userId) {
+        return;
+      }
 
-  const clearCart = () => {
+      setCartItems(
+        (currentItems) =>
+          currentItems.filter(
+            (item) =>
+              item.id !== productId
+          )
+      );
+    },
+    [userId]
+  );
+
+  const clearCart = useCallback(() => {
     setCartItems([]);
-    setCouponCode(null);
-  };
+    setAppliedCoupon(null);
 
-  const applyCoupon = (code) => {
-    const normalizedCode = String(code || "").trim().toUpperCase();
+    if (userId) {
+      saveCartForUser(
+        userId,
+        []
+      );
+    }
+  }, [userId]);
 
-    if (!couponRules[normalizedCode]) {
-      return {
-        success: false,
-        message: "Invalid coupon code.",
-      };
+  const applyCoupon =
+    useCallback(
+      (couponCode) => {
+        const normalizedCode =
+          String(
+            couponCode || ""
+          )
+            .trim()
+            .toUpperCase();
+
+        if (!normalizedCode) {
+          return {
+            success: false,
+            message:
+              "Please enter a coupon code.",
+          };
+        }
+
+        const coupon =
+          couponRules[
+            normalizedCode
+          ];
+
+        if (!coupon) {
+          return {
+            success: false,
+            message:
+              "Invalid coupon code.",
+          };
+        }
+
+        setAppliedCoupon({
+          code: normalizedCode,
+          ...coupon,
+        });
+
+        return {
+          success: true,
+          message:
+            "Coupon applied successfully.",
+        };
+      },
+      []
+    );
+
+  const removeCoupon =
+    useCallback(() => {
+      setAppliedCoupon(null);
+    }, []);
+
+  const subtotal = useMemo(() => {
+    return cartItems.reduce(
+      (total, item) => {
+        const price =
+          Number(item.price) || 0;
+
+        const quantity =
+          Number(item.quantity) || 0;
+
+        return (
+          total +
+          price * quantity
+        );
+      },
+      0
+    );
+  }, [cartItems]);
+
+  const discount = useMemo(() => {
+    if (!appliedCoupon) {
+      return 0;
     }
 
-    setCouponCode(normalizedCode);
+    if (
+      appliedCoupon.type ===
+      "percentage"
+    ) {
+      return Math.min(
+        subtotal,
+        (subtotal *
+          appliedCoupon.value) /
+          100
+      );
+    }
 
-    return {
-      success: true,
-      message: `Coupon ${normalizedCode} applied successfully!`,
-    };
-  };
+    if (
+      appliedCoupon.type ===
+      "fixed"
+    ) {
+      return Math.min(
+        subtotal,
+        appliedCoupon.value
+      );
+    }
 
-  const removeCoupon = () => {
-    setCouponCode(null);
-  };
+    return 0;
+  }, [
+    subtotal,
+    appliedCoupon,
+  ]);
 
-  const totals = useMemo(() => {
-    const totalQuantity = cartItems.reduce(
-      (total, item) => total + Number(item.quantity || 0),
-      0
-    );
+  const deliveryCharge =
+    useMemo(() => {
+      if (subtotal === 0) {
+        return 0;
+      }
 
-    const subtotal = cartItems.reduce(
-      (total, item) =>
-        total + Number(item.price || 0) * Number(item.quantity || 0),
-      0
-    );
-
-    const deliveryFee =
-      subtotal === 0 || subtotal >= FREE_DELIVERY_THRESHOLD
+      return subtotal >= 500
         ? 0
-        : DELIVERY_FEE;
+        : 40;
+    }, [subtotal]);
 
-    const automaticDiscount =
-      subtotal >= AUTO_DISCOUNT_THRESHOLD ? AUTO_DISCOUNT_AMOUNT : 0;
+  const totalAmount = useMemo(() => {
+    return Math.max(
+      0,
+      subtotal -
+        discount +
+        deliveryCharge
+    );
+  }, [
+    subtotal,
+    discount,
+    deliveryCharge,
+  ]);
 
-    const couponDiscount = getCouponDiscount(couponCode, subtotal);
+  const totalItems = useMemo(() => {
+    return cartItems.reduce(
+      (total, item) =>
+        total +
+        (Number(
+          item.quantity
+        ) || 0),
+      0
+    );
+  }, [cartItems]);
 
-    // Retains the existing automatic discount while preventing two discounts
-    // from being stacked on the same static order.
-    const discount = Math.max(automaticDiscount, couponDiscount);
+  const value = useMemo(
+    () => ({
+      cartItems,
+      setCartItems,
 
-    const totalAmount = Math.max(0, subtotal + deliveryFee - discount);
+      addToCart,
+      increaseQuantity,
+      decreaseQuantity,
+      removeItem,
+      clearCart,
 
-    return {
-      totalQuantity,
+      appliedCoupon,
+      applyCoupon,
+      removeCoupon,
+
       subtotal,
-      deliveryFee,
-      automaticDiscount,
-      couponDiscount,
       discount,
+      deliveryCharge,
       totalAmount,
-    };
-  }, [cartItems, couponCode]);
+      totalItems,
+
+      isEmpty:
+        cartItems.length === 0,
+
+      userId,
+      cartReady,
+    }),
+    [
+      cartItems,
+      addToCart,
+      increaseQuantity,
+      decreaseQuantity,
+      removeItem,
+      clearCart,
+      appliedCoupon,
+      applyCoupon,
+      removeCoupon,
+      subtotal,
+      discount,
+      deliveryCharge,
+      totalAmount,
+      totalItems,
+      userId,
+      cartReady,
+    ]
+  );
 
   return (
     <CartContext.Provider
-      value={{
-        cartItems,
-        couponCode,
-        hasHydrated,
-        addToCart,
-        increaseQuantity,
-        decreaseQuantity,
-        removeItem,
-        clearCart,
-        applyCoupon,
-        removeCoupon,
-        ...totals,
-        freeDeliveryThreshold: FREE_DELIVERY_THRESHOLD,
-      }}
+      value={value}
     >
       {children}
     </CartContext.Provider>
   );
 }
 
-export function useCart() {
-  const context = useContext(CartContext);
+export function useCartContext() {
+  const context =
+    useContext(CartContext);
 
   if (!context) {
-    throw new Error("useCart must be used within CartProvider");
+    throw new Error(
+      "useCartContext must be used inside CartProvider."
+    );
   }
 
   return context;
 }
+
+export function useCart() {
+  return useCartContext();
+}
+
+export default CartContext;

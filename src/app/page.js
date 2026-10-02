@@ -22,8 +22,8 @@
 //   );
 // }
 
-import SplashScreen from "@/components/ui/Auth/SplashScreen";
+import { redirect } from "next/navigation";
 
-export default function HomePage() {
-  return <SplashScreen />;
+export default function Page() {
+  redirect("/splash");
 }

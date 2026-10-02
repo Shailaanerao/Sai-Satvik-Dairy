@@ -1,19 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
+
 import { useCart } from "@/app/context/CartContext";
+
 import "./ProductCard.css";
 
-export default function ProductCard({ product, onAddToCart }) {
+export default function ProductCard({
+  product,
+  onAddToCart,
+}) {
   const { addToCart } = useCart();
-  const [imageSrc, setImageSrc] = useState(
-    product?.image || product?.images?.[0] || "/logo.jpeg"
-  );
+
+  const [imageLoadFailed, setImageLoadFailed] =
+    useState(false);
 
   if (!product) {
     return null;
   }
+
+  const productImage =
+    product.image ||
+    product.image_url ||
+    product.images?.[0] ||
+    "";
+
+  const imageSrc =
+    imageLoadFailed || !productImage
+      ? "/logo.jpeg"
+      : productImage;
 
   const handleAdd = (event) => {
     event.preventDefault();
@@ -27,8 +44,15 @@ export default function ProductCard({ product, onAddToCart }) {
     addToCart(product);
   };
 
-  const rating = Number(product.rating || 0);
-  const reviewCount = Number(product.reviewCount || 0);
+  const rating = Number(
+    product.rating || 0
+  );
+
+  const reviewCount = Number(
+    product.reviewCount ??
+      product.review_count ??
+      0
+  );
 
   return (
     <article className="products-card">
@@ -37,21 +61,40 @@ export default function ProductCard({ product, onAddToCart }) {
         className="products-card-image"
       >
         {product.badge && (
-          <span className="products-card-badge">{product.badge}</span>
+          <span className="products-card-badge">
+            {product.badge}
+          </span>
         )}
 
-        <img
+        <Image
           src={imageSrc}
           alt={product.name}
-          onError={() => setImageSrc("/logo.jpeg")}
+          fill
+          unoptimized
+          sizes="
+            (max-width: 768px) 100vw,
+            (max-width: 1200px) 50vw,
+            25vw
+          "
+          style={{
+            objectFit: "cover",
+          }}
+          onError={() => {
+            setImageLoadFailed(true);
+          }}
         />
 
-        <span className="products-card-view">View Product</span>
+        <span className="products-card-view">
+          View Product
+        </span>
       </Link>
 
       <div className="products-card-content">
         <span className="products-card-category">
-          {product.category}
+          {product.categoryName ||
+            product.category ||
+            product.categories?.name ||
+            ""}
         </span>
 
         <Link
@@ -66,22 +109,59 @@ export default function ProductCard({ product, onAddToCart }) {
         </p>
 
         <div className="products-card-rating">
-          <span className="rating-stars" aria-label={`${rating} out of 5`}>
-            {"★".repeat(Math.round(rating))}
-            {"☆".repeat(5 - Math.round(rating))}
+          <span
+            className="rating-stars"
+            aria-label={`${rating} out of 5`}
+          >
+            {"★".repeat(
+              Math.min(
+                5,
+                Math.max(
+                  0,
+                  Math.round(rating)
+                )
+              )
+            )}
+
+            {"☆".repeat(
+              5 -
+                Math.min(
+                  5,
+                  Math.max(
+                    0,
+                    Math.round(rating)
+                  )
+                )
+            )}
           </span>
 
-          <strong>{rating.toFixed(1)}</strong>
-          <span>({reviewCount})</span>
+          <strong>
+            {rating.toFixed(1)}
+          </strong>
+
+          <span>
+            ({reviewCount})
+          </span>
         </div>
 
         <div className="products-card-footer">
           <div className="products-card-price">
-            <strong>₹{product.price}</strong>
+            <strong>
+              ₹{product.price}
+            </strong>
 
-            {product.oldPrice && <del>₹{product.oldPrice}</del>}
+            {(product.oldPrice ??
+              product.old_price) ? (
+              <del>
+                ₹
+                {product.oldPrice ??
+                  product.old_price}
+              </del>
+            ) : null}
 
-            <span>/ {product.unit}</span>
+            <span>
+              / {product.unit}
+            </span>
           </div>
 
           <button

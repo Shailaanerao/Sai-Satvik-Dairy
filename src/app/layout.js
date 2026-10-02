@@ -1,5 +1,4 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import Footer from "@/components/ui/Footer/Footer";
 import { CartProvider } from "./context/CartContext";
 import "./globals.css";
 
@@ -26,11 +25,9 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <CartProvider>
-          {/* Navbar removed from here so individual pages don't duplicate it */}
           <main style={{ flex: "1 0 auto" }}>
             {children}
           </main>
-          {/* <Footer /> */}
         </CartProvider>
       </body>
     </html>

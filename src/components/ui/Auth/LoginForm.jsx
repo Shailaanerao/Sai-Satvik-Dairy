@@ -8,18 +8,24 @@ import AuthInput from "./AuthInput";
 import PasswordInput from "./PasswordInput";
 import AuthButton from "./AuthButton";
 
+import useAuth from "@/hooks/useAuth";
+import { supabase } from "@/lib/supabase";
+
 import "./AuthForms.css";
 import "./LoginForm.css";
 
 export default function LoginForm() {
   const router = useRouter();
 
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
-    mobile: "",
+    email: "",
     password: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -28,44 +34,91 @@ export default function LoginForm() {
       ...previous,
       [name]: value,
     }));
+
+    if (error) {
+      setError("");
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!formData.mobile.trim()) {
-      alert("Please enter your mobile number.");
+    setError("");
+
+    if (!formData.email.trim()) {
+      setError("Please enter your email address.");
       return;
     }
 
     if (!formData.password.trim()) {
-      alert("Please enter your password.");
+      setError("Please enter your password.");
       return;
     }
 
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    /*
-      Frontend-only login for now.
+      await login(
+        formData.email.trim(),
+        formData.password
+      );
 
-      Later this will be replaced
-      by your actual authentication API.
-    */
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
-    setTimeout(() => {
+      if (userError || !user) {
+        throw new Error(
+          "Unable to verify your account."
+        );
+      }
+
+      const {
+        data: profile,
+        error: profileError,
+      } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      if (profileError) {
+        console.error(
+          "Profile role lookup failed:",
+          profileError
+        );
+
+        throw new Error(
+          "Unable to determine account type."
+        );
+      }
+
+      if (profile?.role === "admin") {
+        router.replace("/admin");
+        return;
+      }
+
       router.replace("/home");
-    }, 700);
+    } catch (error) {
+      console.error("Login failed:", error);
+
+      setError(
+        error?.message ||
+          "Login failed. Please check your email and password."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-form">
-
       <div className="login-logo">
         <AuthLogo />
       </div>
 
       <div className="login-heading">
-
         <span className="login-eyebrow">
           CUSTOMER ACCOUNT
         </span>
@@ -76,20 +129,24 @@ export default function LoginForm() {
           Login to continue shopping
           fresh dairy products.
         </p>
-
       </div>
+
+      {error && (
+        <div className="auth-error" role="alert">
+          {error}
+        </div>
+      )}
 
       <form
         onSubmit={handleSubmit}
         className="login-form-fields"
       >
-
         <AuthInput
-          label="Mobile Number"
-          name="mobile"
-          type="tel"
-          placeholder="Enter your mobile number"
-          value={formData.mobile}
+          label="Email Address"
+          name="email"
+          type="email"
+          placeholder="Enter your email address"
+          value={formData.email}
           onChange={handleChange}
           required
         />
@@ -103,7 +160,6 @@ export default function LoginForm() {
         />
 
         <div className="login-forgot">
-
           <button
             type="button"
             onClick={() =>
@@ -112,7 +168,6 @@ export default function LoginForm() {
           >
             Forgot Password?
           </button>
-
         </div>
 
         <AuthButton
@@ -123,7 +178,6 @@ export default function LoginForm() {
             ? "Logging in..."
             : "Login"}
         </AuthButton>
-
       </form>
 
       <div className="login-divider">
@@ -146,7 +200,6 @@ export default function LoginForm() {
         {" "}and{" "}
         <span>Privacy Policy</span>.
       </p>
-
     </div>
   );
 }

@@ -108,6 +108,8 @@ export default function Footer() {
           </div>
           <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
             <input
+              id="newsletter-email"
+              name="email"
               type="email"
               placeholder="Enter your email address..."
               aria-label="Email Address"

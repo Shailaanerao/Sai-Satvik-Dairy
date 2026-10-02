@@ -14,7 +14,6 @@
   margin: 0 auto;
 }
 
-
 /* =====================================
    HEADING
 ===================================== */
@@ -61,19 +60,15 @@
   line-height: 1.7;
 }
 
-
 /* =====================================
-   5 PRODUCT CARDS IN ONE ROW
+   PRODUCT GRID
 ===================================== */
 
 .featured-grid {
   display: grid;
-
   grid-template-columns: repeat(5, 1fr);
-
   gap: 1rem;
 }
-
 
 /* =====================================
    VIEW ALL BUTTON
@@ -90,7 +85,6 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-
   padding: 0.8rem 1.5rem;
 
   border: 1.5px solid #23482a;
@@ -100,7 +94,6 @@
   background-color: transparent;
 
   text-decoration: none;
-
   font-size: 0.85rem;
   font-weight: 700;
 
@@ -116,26 +109,21 @@
   transform: translateY(-2px);
 }
 
-
 /* =====================================
    LARGE TABLET
 ===================================== */
 
 @media (max-width: 1100px) {
-
   .featured-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-
 }
-
 
 /* =====================================
    TABLET
 ===================================== */
 
 @media (max-width: 900px) {
-
   .featured-section {
     padding: 4rem 1.5rem;
   }
@@ -157,16 +145,13 @@
   .featured-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
 }
-
 
 /* =====================================
    MOBILE
 ===================================== */
 
 @media (max-width: 600px) {
-
   .featured-section {
     padding: 3.5rem 1rem;
   }
@@ -183,22 +168,67 @@
     font-size: 0.85rem;
   }
 
+  /* Horizontal product scrolling */
   .featured-grid {
-    grid-template-columns: 1fr;
+    display: flex;
     gap: 1rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 0 0 0.75rem;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
   }
 
-}
+  .featured-grid::-webkit-scrollbar {
+    display: none;
+  }
 
+  /* Product card width on mobile */
+  .featured-grid > * {
+    flex: 0 0 78vw;
+    max-width: 320px;
+
+    scroll-snap-align: start;
+  }
+
+  /* Keep footer below horizontal list */
+  .featured-footer {
+    margin-top: 1.75rem;
+  }
+
+  .view-products-btn {
+    width: 100%;
+    max-width: 260px;
+    padding: 0.85rem 1.25rem;
+  }
+}
 
 /* =====================================
    SMALL MOBILE
 ===================================== */
 
 @media (max-width: 400px) {
-
   .featured-title {
     font-size: 1.8rem;
   }
 
+  .featured-grid {
+    gap: 0.85rem;
+  }
+
+  .featured-grid > * {
+    flex: 0 0 82vw;
+    max-width: none;
+  }
+
+  .featured-description {
+    font-size: 0.82rem;
+  }
 }

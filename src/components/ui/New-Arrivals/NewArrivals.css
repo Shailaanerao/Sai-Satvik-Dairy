@@ -1,19 +1,30 @@
+/* =====================================
+   NEW ARRIVALS SECTION
+===================================== */
+
 .new-arrivals-section {
   width: 100%;
   padding: 4.5rem 1.5rem;
   background-color: #ffffff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
   box-sizing: border-box;
 }
 
 .new-arrivals-container {
+  width: 100%;
   max-width: 1300px;
   margin: 0 auto;
 }
 
-/* =========================
+/* =====================================
    HEADER
-========================= */
+===================================== */
 
 .new-arrivals-header {
   display: flex;
@@ -55,23 +66,34 @@
   margin: 0;
   color: #666666;
   font-size: 0.92rem;
+  line-height: 1.6;
   max-width: 440px;
 }
 
 .new-arrivals-view-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
+
   padding: 0.6rem 1.2rem;
+
   border-radius: 25px;
-  background-color: #f8f6f0;
   border: 1px solid #ebdccb;
+
+  background-color: #f8f6f0;
   color: #23482a;
+
   font-size: 0.84rem;
   font-weight: 750;
   text-decoration: none;
   white-space: nowrap;
-  transition: all 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .new-arrivals-view-btn:hover {
@@ -81,18 +103,25 @@
   transform: translateY(-2px);
 }
 
-/* =========================
+/* =====================================
    FILTER TABS
-========================= */
+===================================== */
 
 .new-arrivals-filter-bar {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+
   margin-bottom: 2.25rem;
+
   overflow-x: auto;
+  overflow-y: hidden;
+
   scrollbar-width: none;
+
   padding-bottom: 0.3rem;
+
+  -webkit-overflow-scrolling: touch;
 }
 
 .new-arrivals-filter-bar::-webkit-scrollbar {
@@ -100,16 +129,27 @@
 }
 
 .arrivals-pill {
+  flex: 0 0 auto;
+
   border: 1px solid #e2ddd3;
   background-color: #fcfbfa;
   color: #555555;
+
   padding: 0.48rem 1.1rem;
+
   border-radius: 20px;
+
   font-size: 0.78rem;
   font-weight: 650;
+
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .arrivals-pill:hover {
@@ -125,9 +165,9 @@
   box-shadow: 0 3px 10px rgba(35, 72, 42, 0.2);
 }
 
-/* =========================
-   GRID
-========================= */
+/* =====================================
+   PRODUCT GRID
+===================================== */
 
 .new-arrivals-grid {
   display: grid;
@@ -143,9 +183,9 @@
   font-size: 0.9rem;
 }
 
-/* =========================
-   RESPONSIVE BREAKPOINTS
-========================= */
+/* =====================================
+   LARGE TABLET
+===================================== */
 
 @media (max-width: 1080px) {
   .new-arrivals-grid {
@@ -153,6 +193,10 @@
     gap: 1.25rem;
   }
 }
+
+/* =====================================
+   TABLET / MOBILE
+===================================== */
 
 @media (max-width: 768px) {
   .new-arrivals-section {
@@ -172,6 +216,11 @@
     gap: 0.85rem;
   }
 
+  .new-arrivals-desc {
+    max-width: 100%;
+    font-size: 0.88rem;
+  }
+
   .new-arrivals-view-btn {
     width: 100%;
     justify-content: center;
@@ -181,10 +230,97 @@
   .new-arrivals-title {
     font-size: 1.8rem;
   }
+
+  /* Horizontal category scrolling */
+  .new-arrivals-filter-bar {
+    margin-left: -0.1rem;
+    margin-right: -0.1rem;
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+  }
+
+  /* Horizontal product scrolling */
+  .new-arrivals-grid {
+    display: flex;
+    gap: 1rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 0 0 0.75rem;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .new-arrivals-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Individual product card */
+  .new-arrivals-grid > * {
+    flex: 0 0 78vw;
+    max-width: 320px;
+    scroll-snap-align: start;
+  }
 }
 
+/* =====================================
+   SMALL MOBILE
+===================================== */
+
 @media (max-width: 520px) {
+  .new-arrivals-section {
+    padding: 2.75rem 1rem;
+  }
+
+  .new-arrivals-title {
+    font-size: 1.7rem;
+  }
+
+  .new-arrivals-desc {
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+
   .new-arrivals-grid {
-    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .new-arrivals-grid > * {
+    flex: 0 0 82vw;
+    max-width: none;
+  }
+
+  .new-arrivals-view-btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.82rem;
+  }
+
+  .arrivals-pill {
+    padding: 0.45rem 1rem;
+    font-size: 0.76rem;
+  }
+}
+
+/* =====================================
+   EXTRA SMALL MOBILE
+===================================== */
+
+@media (max-width: 380px) {
+  .new-arrivals-section {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .new-arrivals-title {
+    font-size: 1.55rem;
+  }
+
+  .new-arrivals-grid > * {
+    flex: 0 0 84vw;
   }
 }

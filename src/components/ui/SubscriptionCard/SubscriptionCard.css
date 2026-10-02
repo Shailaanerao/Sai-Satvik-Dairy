@@ -1,123 +1,150 @@
-.subscription-card {
-  padding: 27px;
+/* =========================================================
+   SAI SATVIK DAIRY
+   SUBSCRIPTION CARD
+   Product Details Page
+========================================================= */
 
+.subscription-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 34px 0;
+  padding: 28px;
   border: 1px solid #dce4d4;
   border-radius: 18px;
-
   background: #f0f4eb;
-
-  box-shadow:
-    0 8px 25px rgba(67, 83, 54, 0.04);
+  box-shadow: 0 8px 25px rgba(67, 83, 54, 0.04);
 }
 
-
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .subscription-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 24px;
+}
 
-  gap: 20px;
+.subscription-card-header > div:first-child {
+  min-width: 0;
 }
 
 .subscription-eyebrow {
+  display: block;
+  margin: 0;
   color: #70825e;
-
-  font-size: 7px;
+  font-size: 10px;
   font-weight: 700;
-
+  line-height: 1.4;
   letter-spacing: 1.8px;
+  text-transform: uppercase;
 }
 
 .subscription-card-header h2 {
-  margin: 7px 0 5px;
-
+  margin: 7px 0 6px;
   color: #34422e;
-
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-  font-size: 27px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
   font-weight: 500;
+  line-height: 1.2;
 }
 
 .subscription-card-header p {
+  max-width: 520px;
   margin: 0;
-
-  color: #8d9585;
-
-  font-size: 9px;
+  color: #7d8775;
+  font-size: 13px;
   line-height: 1.6;
 }
 
-.subscription-symbol {
-  width: 52px;
-  height: 52px;
+/* =========================================================
+   SYMBOL
+========================================================= */
 
+.subscription-symbol {
+  width: 54px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  flex-shrink: 0;
+  flex: 0 0 54px;
 
   border-radius: 50%;
-
   background: #ffffff;
-
   color: #647b52;
 
-  font-size: 23px;
+  font-size: 25px;
+  line-height: 1;
+
+  box-shadow: 0 3px 12px rgba(67, 83, 54, 0.05);
 }
 
-
-/* OPTIONS */
+/* =========================================================
+   OPTIONS
+========================================================= */
 
 .subscription-options {
+  width: 100%;
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 12px;
-
-  margin-top: 23px;
+  margin-top: 24px;
 }
 
 .subscription-option {
+  width: 100%;
+  min-width: 0;
+  min-height: 72px;
+
+  box-sizing: border-box;
+
   display: flex;
   align-items: center;
+  gap: 13px;
 
-  gap: 12px;
-
-  min-height: 68px;
-
-  padding: 12px 15px;
+  padding: 13px 16px;
 
   border: 1px solid #d9e0d2;
-  border-radius: 11px;
+  border-radius: 12px;
 
   background: #ffffff;
 
+  color: #45523c;
   text-align: left;
 
   cursor: pointer;
 
-  transition: 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .subscription-option:hover {
   border-color: #8ca078;
+  background: #fcfdfb;
+}
+
+.subscription-option:focus-visible {
+  outline: 2px solid #657b52;
+  outline-offset: 2px;
 }
 
 .subscription-option.active {
   border-color: #657b52;
-
-  box-shadow:
-    inset 0 0 0 1px #657b52;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px #657b52;
 }
+
+/* =========================================================
+   RADIO
+========================================================= */
 
 .subscription-radio {
   width: 21px;
@@ -127,103 +154,270 @@
   align-items: center;
   justify-content: center;
 
-  flex-shrink: 0;
+  flex: 0 0 21px;
+
+  box-sizing: border-box;
 
   border: 1px solid #c7cdc0;
   border-radius: 50%;
 
+  background: #ffffff;
   color: #ffffff;
 
-  font-size: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
 }
 
-.subscription-option.active
-.subscription-radio {
+.subscription-option.active .subscription-radio {
   border-color: #657b52;
   background: #657b52;
 }
 
+/* =========================================================
+   OPTION TEXT
+========================================================= */
+
 .subscription-option-text {
+  min-width: 0;
   display: block;
 }
 
 .subscription-option-text strong {
   display: block;
+  margin: 0;
 
   color: #45523c;
 
-  font-size: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .subscription-option-text small {
   display: block;
-
   margin-top: 4px;
 
-  color: #999c93;
+  color: #92998d;
 
-  font-size: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
 }
 
-
-/* BENEFITS */
+/* =========================================================
+   BENEFITS
+========================================================= */
 
 .subscription-benefits {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
 
-  gap: 15px;
+  gap: 10px 20px;
 
-  margin: 19px 0;
+  margin: 20px 0;
 }
 
 .subscription-benefits span {
+  display: inline-flex;
+  align-items: center;
+
   color: #6f7d63;
 
-  font-size: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
-
-/* BUTTON */
+/* =========================================================
+   BUTTON
+========================================================= */
 
 .subscription-submit {
   width: 100%;
-  height: 45px;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 18px;
 
   border: none;
-  border-radius: 8px;
+  border-radius: 9px;
 
   background: #647b52;
-
   color: #ffffff;
 
-  font-size: 9px;
+  font-family: inherit;
+  font-size: 12px;
   font-weight: 700;
+  line-height: 1;
 
   cursor: pointer;
 
-  transition: 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .subscription-submit:hover {
   background: #526a42;
+  box-shadow: 0 5px 14px rgba(82, 106, 66, 0.16);
 }
 
+.subscription-submit:active {
+  transform: translateY(1px);
+}
 
-/* MOBILE */
+.subscription-submit:focus-visible {
+  outline: 2px solid #526a42;
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+  .subscription-card {
+    margin: 28px 0;
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .subscription-card-header {
+    gap: 18px;
+  }
+
+  .subscription-card-header h2 {
+    font-size: 25px;
+  }
+
+  .subscription-card-header p {
+    font-size: 12px;
+  }
+
+  .subscription-symbol {
+    width: 50px;
+    height: 50px;
+    flex-basis: 50px;
+    font-size: 23px;
+  }
+
+  .subscription-options {
+    gap: 12px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media (max-width: 600px) {
-
   .subscription-card {
+    margin: 24px 0;
     padding: 20px;
+    border-radius: 15px;
+  }
+
+  .subscription-card-header {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .subscription-eyebrow {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+
+  .subscription-card-header h2 {
+    margin-top: 6px;
+    font-size: 23px;
+  }
+
+  .subscription-card-header p {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .subscription-symbol {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+    font-size: 20px;
   }
 
   .subscription-options {
     grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .subscription-option {
+    min-height: 64px;
+    padding: 12px 14px;
+  }
+
+  .subscription-option-text strong {
+    font-size: 13px;
+  }
+
+  .subscription-option-text small {
+    font-size: 10px;
+  }
+
+  .subscription-benefits {
+    gap: 8px 14px;
+    margin: 17px 0;
+  }
+
+  .subscription-benefits span {
+    font-size: 10px;
+  }
+
+  .subscription-submit {
+    height: 44px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .subscription-card {
+    padding: 16px;
+  }
+
+  .subscription-card-header {
+    gap: 10px;
   }
 
   .subscription-card-header h2 {
-    font-size: 23px;
+    font-size: 21px;
   }
 
+  .subscription-card-header p {
+    font-size: 10px;
+  }
+
+  .subscription-symbol {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+    font-size: 18px;
+  }
+
+  .subscription-benefits {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
 }

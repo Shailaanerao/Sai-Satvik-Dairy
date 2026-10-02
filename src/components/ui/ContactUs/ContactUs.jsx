@@ -23,11 +23,11 @@ export default function ContactUs() {
         <div className="contact-hero-content">
 
           <span className="contact-eyebrow">
-            WE'RE HERE FOR YOU
+            WE&apos;RE HERE FOR YOU
           </span>
 
           <h1>
-            Let's Talk <span>Freshness</span>
+            Let&apos;s Talk <span>Freshness</span>
           </h1>
 
           <p>
@@ -108,7 +108,7 @@ export default function ContactUs() {
           </span>
 
           <h2>
-            We'd Love To
+            We&apos;d Love To
             <br />
             <span>Hear From You.</span>
           </h2>
@@ -169,7 +169,7 @@ export default function ContactUs() {
                 <p>
                   Need help with your delivery?
                   <br />
-                  We're just a message away.
+                  We&apos;re just a message away.
                 </p>
               </div>
 
@@ -391,7 +391,7 @@ export default function ContactUs() {
           </span>
 
           <h2>
-            We're Here For
+            We&apos;re Here For
             <span> Every Step.</span>
           </h2>
 

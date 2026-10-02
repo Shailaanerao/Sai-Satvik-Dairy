@@ -11,7 +11,7 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.replace("/onboarding");
+      router.replace("/home");
     }, 2800);
 
     return () => clearTimeout(timer);
@@ -19,14 +19,11 @@ export default function SplashScreen() {
 
   return (
     <main className="splash-screen">
-
       <div className="splash-background-circle splash-circle-one" />
       <div className="splash-background-circle splash-circle-two" />
 
       <div className="splash-content">
-
         <div className="splash-logo-container">
-
           <div className="splash-logo-ring">
             <Image
               src="/logo.jpeg"
@@ -36,11 +33,9 @@ export default function SplashScreen() {
               priority
             />
           </div>
-
         </div>
 
         <div className="splash-brand">
-
           <h1>Sai Satvik</h1>
 
           <div className="splash-brand-line">
@@ -52,7 +47,6 @@ export default function SplashScreen() {
           <div className="splash-tagline">
             PURE FOR SURE
           </div>
-
         </div>
 
         <p className="splash-description">
@@ -62,21 +56,17 @@ export default function SplashScreen() {
         </p>
 
         <div className="splash-loading">
-
           <div className="splash-loading-track">
             <div className="splash-loading-bar" />
           </div>
 
           <span>Loading...</span>
-
         </div>
-
       </div>
 
       <div className="splash-bottom">
         Farm Fresh • Naturally Pure • Delivered Fresh
       </div>
-
     </main>
   );
 }
