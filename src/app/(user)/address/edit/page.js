@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-} from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import {
   useRouter,
@@ -19,7 +16,7 @@ import {
 
 import "@/components/ui/Address/address.css";
 
-export default function EditAddressPage() {
+function EditAddressContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -38,6 +35,7 @@ export default function EditAddressPage() {
 
   useEffect(() => {
     if (!id) {
+      setLoading(false);
       return;
     }
 
@@ -48,9 +46,7 @@ export default function EditAddressPage() {
         setLoading(true);
         setError("");
 
-        const response = await get(
-          `/addresses/${id}`
-        );
+        const response = await get(`/addresses/${id}`);
 
         const addressData =
           response?.address ||
@@ -59,9 +55,7 @@ export default function EditAddressPage() {
           null;
 
         if (!addressData) {
-          throw new Error(
-            "Address not found."
-          );
+          throw new Error("Address not found.");
         }
 
         if (cancelled) {
@@ -74,10 +68,7 @@ export default function EditAddressPage() {
           return;
         }
 
-        console.error(
-          "Load address error:",
-          requestError
-        );
+        console.error("Load address error:", requestError);
 
         setError(
           requestError?.message ||
@@ -106,9 +97,7 @@ export default function EditAddressPage() {
    * =========================================
    */
 
-  const handleSubmit = async (
-    updatedAddress
-  ) => {
+  const handleSubmit = async (updatedAddress) => {
     try {
       setSaving(true);
       setError("");
@@ -141,10 +130,7 @@ export default function EditAddressPage() {
         ),
       };
 
-      await put(
-        `/addresses/${id}`,
-        payload
-      );
+      await put(`/addresses/${id}`, payload);
 
       router.push("/address");
     } catch (requestError) {
@@ -188,9 +174,7 @@ export default function EditAddressPage() {
         <button
           type="button"
           className="save-address-btn"
-          onClick={() =>
-            router.push("/address")
-          }
+          onClick={() => router.push("/address")}
         >
           Back to Addresses
         </button>
@@ -247,9 +231,7 @@ export default function EditAddressPage() {
         <button
           type="button"
           className="save-address-btn"
-          onClick={() =>
-            router.push("/address")
-          }
+          onClick={() => router.push("/address")}
         >
           Back to Addresses
         </button>
@@ -295,5 +277,27 @@ export default function EditAddressPage() {
         onSubmit={handleSubmit}
       />
     </main>
+  );
+}
+
+export default function EditAddressPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="checkout-page">
+          <h1>Edit Address</h1>
+
+          <div
+            style={{
+              padding: "20px 0",
+            }}
+          >
+            Loading address...
+          </div>
+        </main>
+      }
+    >
+      <EditAddressContent />
+    </Suspense>
   );
 }
