@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useCart } from "@/app/context/CartContext";
 
@@ -16,6 +16,23 @@ export default function ProductCard({
 
   const [imageLoadFailed, setImageLoadFailed] =
     useState(false);
+
+  const [showAddedMessage, setShowAddedMessage] =
+    useState(false);
+
+  useEffect(() => {
+    if (!showAddedMessage) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setShowAddedMessage(false);
+    }, 1800);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showAddedMessage]);
 
   if (!product) {
     return null;
@@ -38,10 +55,11 @@ export default function ProductCard({
 
     if (onAddToCart) {
       onAddToCart(product);
-      return;
+    } else {
+      addToCart(product);
     }
 
-    addToCart(product);
+    setShowAddedMessage(true);
   };
 
   const rating = Number(
@@ -173,6 +191,16 @@ export default function ProductCard({
             <span>+</span>
           </button>
         </div>
+
+        {showAddedMessage && (
+          <div
+            className="products-card-added-message"
+            role="status"
+            aria-live="polite"
+          >
+            ✓ Product added to cart
+          </div>
+        )}
       </div>
     </article>
   );

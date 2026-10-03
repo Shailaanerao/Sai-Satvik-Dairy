@@ -8,13 +8,11 @@
   background: #ffffff;
   box-shadow: 0 6px 22px rgba(46, 71, 48, 0.07);
   transition:
-    transform 0.22s ease,
     box-shadow 0.22s ease,
     border-color 0.22s ease;
 }
 
 .products-card:hover {
-  transform: translateY(-5px);
   border-color: #c7d9c7;
   box-shadow: 0 16px 30px rgba(46, 71, 48, 0.14);
 }
@@ -109,7 +107,6 @@
   color: #6a756b;
   font-size: 0.88rem;
   line-height: 1.55;
-
   line-clamp: 2;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -192,6 +189,83 @@
 .products-card-name:focus-visible {
   outline: 3px solid #efb545;
   outline-offset: 3px;
+}
+
+/* =========================================================
+   ADD TO CART TOAST
+========================================================= */
+
+.products-card-added-message {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+
+  z-index: 99999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 46px;
+
+  padding: 0 20px;
+
+  border-radius: 999px;
+
+  background: #23482a;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18);
+
+  pointer-events: none;
+
+  transform: translateX(-50%);
+
+  animation: cart-toast-in 0.25s ease-out;
+}
+
+@keyframes cart-toast-in {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, 14px);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, 0);
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .products-card-added-message {
+    left: 50%;
+    right: auto;
+    bottom: 18px;
+
+    width: max-content;
+    max-width: calc(100vw - 32px);
+
+    padding: 0 17px;
+
+    font-size: 12px;
+
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 @media (max-width: 560px) {

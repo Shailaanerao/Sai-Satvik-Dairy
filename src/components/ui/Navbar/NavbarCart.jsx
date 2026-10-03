@@ -5,14 +5,14 @@ import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
 
 export default function NavbarCart() {
-  const { totalQuantity } = useCart();
+  const { totalItems } = useCart();
 
   return (
     <Link
       href="/cart"
       className="action-btn cart-circle-btn"
       aria-label={`Shopping cart with ${
-        totalQuantity || 0
+        totalItems || 0
       } items`}
     >
       <svg
@@ -41,11 +41,11 @@ export default function NavbarCart() {
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
 
-      {totalQuantity > 0 && (
+      {totalItems > 0 && (
         <span className="cart-badge-pulse">
-          {totalQuantity > 99
+          {totalItems > 99
             ? "99+"
-            : totalQuantity}
+            : totalItems}
         </span>
       )}
     </Link>

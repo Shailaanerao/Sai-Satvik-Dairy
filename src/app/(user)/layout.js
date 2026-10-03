@@ -1,21 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import Navbar from "@/components/ui/Navbar/Navbar";
 import Footer from "@/components/ui/Footer/Footer";
 
 import { supabase } from "@/lib/supabase";
 
-export default function UserLayout({ children }) {
+export default function UserLayout({
+  children,
+}) {
   const router = useRouter();
-  const pathname = usePathname();
 
   useEffect(() => {
     let mounted = true;
 
-    const checkCustomerAccess = async () => {
+    const checkAdminAccess = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -24,13 +25,11 @@ export default function UserLayout({ children }) {
         return;
       }
 
+      /*
+       * Guests are allowed to browse the customer
+       * area without logging in.
+       */
       if (!user) {
-        router.replace(
-          `/login?redirect=${encodeURIComponent(
-            pathname || "/home"
-          )}`
-        );
-
         return;
       }
 
@@ -57,22 +56,21 @@ export default function UserLayout({ children }) {
       }
 
       /*
-       * Admin users are allowed to open their
-       * profile page, but other customer pages
-       * redirect them to the admin dashboard.
+       * Admin users are redirected to the admin
+       * dashboard instead of staying in the
+       * customer area.
        */
       if (profile?.role === "admin") {
-    router.replace("/admin");
-    return;
-}
+        router.replace("/admin");
+      }
     };
 
-    checkCustomerAccess();
+    checkAdminAccess();
 
     return () => {
       mounted = false;
     };
-  }, [pathname, router]);
+  }, [router]);
 
   return (
     <>
